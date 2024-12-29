@@ -38,8 +38,8 @@ const eslintConfig = [
       },
     },
     rules: {
-      '@typescript-eslint/consistent-type-exports': 'error',
-      '@typescript-eslint/consistent-type-imports': 'error',
+      '@typescript-eslint/consistent-type-imports': ['error'],
+      'import/consistent-type-specifier-style': ['error', 'prefer-top-level'],
       'import/newline-after-import': ['error', { exactCount: true }],
       'import/order': [
         'error',

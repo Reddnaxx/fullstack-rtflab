@@ -7,8 +7,9 @@ type IconButtonColor = 'primary' | 'danger' | 'success';
 type IconButtonVariant = 'filled' | 'outlined' | 'flat';
 
 type IconButtonProps = ComponentProps<'button'> & {
-  color: IconButtonColor;
-  variant: IconButtonVariant;
+  color?: IconButtonColor;
+  variant?: IconButtonVariant;
+  noPadding?: boolean;
   children?: ReactNode;
 };
 
@@ -36,6 +37,7 @@ const iconButtonClasses = {
 export const IconButton: FC<IconButtonProps> = ({
   color = 'primary',
   variant = 'filled',
+  noPadding,
   children,
   className,
   ...props
@@ -47,6 +49,7 @@ export const IconButton: FC<IconButtonProps> = ({
       className={cn(
         'p-2 text-white rounded-full transition-all active:scale-95',
         colorClasses,
+        { 'p-0': noPadding },
         className
       )}
       {...props}

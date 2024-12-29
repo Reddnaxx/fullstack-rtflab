@@ -1,6 +1,10 @@
 import { cn } from '@/shared/helpers/cn';
 
-import { textColorClasses, textWeightClasses } from './variants';
+import {
+  textColorClasses,
+  textSizeClasses,
+  textWeightClasses,
+} from './variants';
 
 import type { TextColor, TextSize, TextVariant, TextWeight } from './types';
 import type { FC, ReactNode } from 'react';
@@ -23,12 +27,14 @@ export const Text: FC<TextProps> = ({
   as: asComponent = 'p',
 }) => {
   const Component = asComponent;
+
+  const sizeClasses = textSizeClasses[size];
   const colorClasses = textColorClasses[color];
   const weightClasses = textWeightClasses[weight];
 
   return (
     <Component
-      className={cn(`text-${size}`, colorClasses, weightClasses, className)}
+      className={cn(sizeClasses, colorClasses, weightClasses, className)}
     >
       {children}
     </Component>

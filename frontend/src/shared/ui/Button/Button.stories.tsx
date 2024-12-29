@@ -41,3 +41,11 @@ export const Text: Story = {
     variant: 'text',
   },
 };
+
+export const Link: Story = {
+  args: {
+    children: 'Go to ...',
+    href: '/',
+    as: 'link',
+  },
+};

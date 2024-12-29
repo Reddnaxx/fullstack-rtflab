@@ -1,8 +1,9 @@
-import type { TextColor, TextWeight } from './types';
+import type { TextColor, TextSize, TextWeight } from './types';
 import type { ClassNameValue } from 'tailwind-merge';
 
 type TextColorClasses = Record<TextColor, ClassNameValue>;
 type TextWeightClasses = Record<TextWeight, ClassNameValue>;
+type TextSizeClasses = Record<TextSize, ClassNameValue>;
 
 export const textColorClasses: TextColorClasses = {
 	default: 'text-black',
@@ -17,4 +18,20 @@ export const textWeightClasses: TextWeightClasses = {
 	black: 'font-black',
 	light: 'font-light',
 	lighter: 'font-thin',
+};
+
+export const textSizeClasses: TextSizeClasses = {
+	'8': 'text-2xs',
+	'10': 'text-xs',
+	'12': 'text-sm',
+	'14': 'text-base',
+	'16': 'text-lg',
+	'18': 'text-xl',
+	'20': 'text-2xl',
+	'24': 'text-3xl',
+	'30': 'text-4xl',
+	'36': 'text-5xl',
+	'48': 'text-6xl',
+	'60': 'text-7xl',
+	'72': 'text-8xl',
 };

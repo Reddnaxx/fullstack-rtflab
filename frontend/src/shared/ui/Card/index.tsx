@@ -1,12 +1,25 @@
+import { forwardRef } from 'react';
+
 import { cn } from '../../helpers/cn';
 
 import type { FC, ReactNode } from 'react';
 
 type CardVariant = 'raised' | 'outlined';
 
+type CardComponent =
+  | 'div'
+  | 'header'
+  | 'footer'
+  | 'section'
+  | 'nav'
+  | 'article'
+  | 'aside';
+
 interface CardProps {
+  as?: CardComponent;
   variant?: CardVariant;
   children?: ReactNode;
+  className?: string;
 }
 
 const cardVariants = {
@@ -14,15 +27,30 @@ const cardVariants = {
   outlined: 'border border-gray-300',
 };
 
-export const Card: FC<CardProps> = ({ children, variant = 'raised' }) => {
-  const variantClasses = cardVariants[variant];
+export const Card = forwardRef<HTMLDivElement, CardProps>(
+  (
+    { children, className, as: asComponent = 'div', variant = 'raised' },
+    ref
+  ) => {
+    const Component = asComponent;
+    const variantClasses = cardVariants[variant];
 
-  return (
-    <div className={cn('flex flex-col gap-2 rounded-md p-4', variantClasses)}>
-      {children}
-    </div>
-  );
-};
+    return (
+      <Component
+        className={cn(
+          'flex flex-col gap-2 rounded-md p-4',
+          variantClasses,
+          className
+        )}
+        ref={ref}
+      >
+        {children}
+      </Component>
+    );
+  }
+);
+
+Card.displayName = 'Card';
 
 interface CardHeaderProps {
   children?: ReactNode;

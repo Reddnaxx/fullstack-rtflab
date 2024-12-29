@@ -4,7 +4,7 @@ import { profileTabs } from '../../data';
 import type { Meta, StoryObj } from '@storybook/react';
 
 const meta: Meta<typeof ProfileMenu> = {
-  title: 'features/Profile',
+  title: 'features/Profile/Menu',
   component: ProfileMenu,
   tags: ['profile', 'menu'],
 };

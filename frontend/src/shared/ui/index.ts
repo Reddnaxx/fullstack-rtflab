@@ -4,3 +4,4 @@ export * from './Logo';
 export * from './Input'
 export * from './Card'
 export * from './Text'
+export * from './Icon'

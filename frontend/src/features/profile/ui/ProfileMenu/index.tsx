@@ -1,12 +1,13 @@
-import { FC } from 'react';
-import { IProfileTab } from '../../interfaces/profile-tab.interface';
 import Link from 'next/link';
+
+import type { IProfileTab } from '../../interfaces/profile-tab.interface';
+import type { FC } from 'react';
 
 interface ProfileMenuProps {
   tabs: IProfileTab[];
 }
 
-const ProfileMenu: FC<ProfileMenuProps> = ({ tabs }) => {
+export const ProfileMenu: FC<ProfileMenuProps> = ({ tabs }) => {
   return (
     <nav>
       <ul>

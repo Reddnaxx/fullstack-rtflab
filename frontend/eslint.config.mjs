@@ -1,5 +1,6 @@
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
+
 import { FlatCompat } from '@eslint/eslintrc';
 import tailwind from 'eslint-plugin-tailwindcss';
 
@@ -11,9 +12,61 @@ const compat = new FlatCompat({
 });
 
 const eslintConfig = [
-  { files: ['*.ts', '*.tsx'], parserOptions: { project: './tsconfig.json' } },
-  ...compat.extends('next/core-web-vitals', 'next/typescript'),
+  {
+    languageOptions: {
+      parserOptions: {
+        project: './tsconfig.json',
+      },
+    },
+  },
+  {
+    files: ['**.{ts,tsx}'],
+  },
+  ...compat.extends(
+    'next/core-web-vitals',
+    'next/typescript',
+    'plugin:import/recommended',
+    'plugin:import/typescript',
+    'plugin:storybook/recommended'
+  ),
   ...tailwind.configs['flat/recommended'],
+  {
+    settings: {
+      'import/resolver': {
+        typescript: true,
+        node: true,
+      },
+    },
+    rules: {
+      '@typescript-eslint/consistent-type-exports': 'error',
+      '@typescript-eslint/consistent-type-imports': 'error',
+      'import/newline-after-import': ['error', { exactCount: true }],
+      'import/order': [
+        'error',
+        {
+          groups: [
+            'builtin',
+            'external',
+            'internal',
+            ['sibling', 'parent', 'index'],
+            'type',
+          ],
+          pathGroups: [
+            {
+              pattern: '@/**',
+              group: 'internal',
+              position: 'after',
+            },
+          ],
+          warnOnUnassignedImports: true,
+          'newlines-between': 'always',
+          alphabetize: {
+            order: 'asc',
+          },
+        },
+      ],
+    },
+  },
 ];
 
 export default eslintConfig;

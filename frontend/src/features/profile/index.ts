@@ -1,2 +1,2 @@
 export * from './ui'
-export * from './interfaces'
+export type * from './interfaces'

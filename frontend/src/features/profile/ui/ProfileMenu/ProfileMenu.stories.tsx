@@ -1,7 +1,7 @@
-import type { Meta, StoryObj } from '@storybook/react';
-
+import { ProfileMenu } from '.';
 import { profileTabs } from '../../data';
-import ProfileMenu from './index';
+
+import type { Meta, StoryObj } from '@storybook/react';
 
 const meta: Meta<typeof ProfileMenu> = {
   title: 'features/Profile',

@@ -1,4 +1,4 @@
-import { IProfileTab } from '../interfaces';
+import type { IProfileTab } from '../interfaces';
 
 export const profileTabs: IProfileTab[] = [
 	{

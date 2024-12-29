@@ -1,5 +1,6 @@
-import { FC } from 'react';
 import { Text } from '@/shared/ui';
+
+import type { FC } from 'react';
 
 export const HomePage: FC = () => {
   return (

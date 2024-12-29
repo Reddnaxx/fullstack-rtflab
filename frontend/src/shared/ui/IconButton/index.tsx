@@ -1,5 +1,6 @@
 import { cn } from '@/shared/helpers/cn';
-import { ComponentProps, FC, ReactNode } from 'react';
+
+import type { ComponentProps, FC, ReactNode } from 'react';
 
 type IconButtonColor = 'primary' | 'danger' | 'success';
 

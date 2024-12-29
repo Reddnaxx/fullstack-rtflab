@@ -1,5 +1,6 @@
 import { Logo } from '@/shared/ui';
-import { FC } from 'react';
+
+import type { FC } from 'react';
 
 export const Header: FC = () => {
   return (

@@ -14,4 +14,7 @@ export type TextSize =
 	| '48'
 	| '60'
 	| '72';
+
 export type TextColor = 'default' | 'primary' | 'error' | 'success';
+
+export type TextWeight = 'normal' | 'bold' | 'black' | 'light' | 'lighter';

@@ -1,6 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/react';
 import Image from 'next/image';
+
 import { Input } from './index';
+
+import type { Meta, StoryObj } from '@storybook/react';
 
 const meta: Meta<typeof Input> = {
   title: 'shared/Input',

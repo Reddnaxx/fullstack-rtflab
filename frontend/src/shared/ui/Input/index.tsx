@@ -1,5 +1,6 @@
-import { ComponentProps, FC, ReactNode } from 'react';
 import { cn } from '../../helpers/cn';
+
+import type { ComponentProps, FC, ReactNode } from 'react';
 
 type InputProps = Omit<ComponentProps<'input'>, 'prefix'> & {
   label: string;

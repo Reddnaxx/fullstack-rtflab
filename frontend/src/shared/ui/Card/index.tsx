@@ -1,12 +1,24 @@
-import { FC, ReactNode } from 'react';
+import { cn } from '../../helpers/cn';
+
+import type { FC, ReactNode } from 'react';
+
+type CardVariant = 'raised' | 'outlined';
 
 interface CardProps {
+  variant?: CardVariant;
   children?: ReactNode;
 }
 
-export const Card: FC<CardProps> = ({ children }) => {
+const cardVariants = {
+  raised: 'shadow-lg',
+  outlined: 'border border-gray-300',
+};
+
+export const Card: FC<CardProps> = ({ children, variant = 'raised' }) => {
+  const variantClasses = cardVariants[variant];
+
   return (
-    <div className="flex flex-col gap-2 rounded-md p-4 shadow-lg">
+    <div className={cn('flex flex-col gap-2 rounded-md p-4', variantClasses)}>
       {children}
     </div>
   );
@@ -33,7 +45,7 @@ interface CardActionsProps {
 }
 
 export const CardActions: FC<CardActionsProps> = ({ children }) => (
-  <div>{children}</div>
+  <div className="flex gap-1">{children}</div>
 );
 
 export default Card;

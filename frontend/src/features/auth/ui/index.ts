@@ -1,2 +1,3 @@
-export * from './LoginForm';
-export * from './LoginFormUI';
+export * from './login';
+export * from './register';
+export * from './wrapper';

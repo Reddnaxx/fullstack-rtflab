@@ -22,6 +22,7 @@ type ButtonProps = Omit<ButtonCommonProps, 'prefix'> & {
   children?: ReactNode;
   prefix?: ReactNode;
   suffix?: ReactNode;
+  centered?: boolean;
 };
 
 export const Button: FC<ButtonProps> = ({
@@ -33,6 +34,7 @@ export const Button: FC<ButtonProps> = ({
   children,
   prefix,
   suffix,
+  centered,
   className,
   ...props
 }) => {
@@ -40,7 +42,7 @@ export const Button: FC<ButtonProps> = ({
   const sizeClasses = buttonSizeClasses[size];
 
   const classes = cn(
-    'flex items-center gap-3 rounded-md text-left text-white transition-colors',
+    'relative flex items-center gap-4 rounded-md text-left text-white transition-colors',
     colorClasses,
     sizeClasses,
     buttonDisabledClasses,
@@ -54,21 +56,57 @@ export const Button: FC<ButtonProps> = ({
         className={classes}
         {...(props as ComponentProps<typeof Link>)}
       >
-        {prefix}
-        <span className="mr-auto w-full">{children}</span>
-        {suffix}
+        <ButtonLayout prefix={prefix} suffix={suffix} centered={centered}>
+          <span className="w-full">{children}</span>
+        </ButtonLayout>
       </ButtonLink>
     );
   }
 
   return (
     <ButtonDefault className={classes} {...(props as ButtonDefaultProps)}>
-      {prefix}
-      <span className="mr-auto w-full">{children}</span>
-      {suffix}
+      <ButtonLayout prefix={prefix} suffix={suffix} centered={centered}>
+        <span className="w-full">{children}</span>
+      </ButtonLayout>
     </ButtonDefault>
   );
 };
+
+const ButtonLayout: FC<ButtonProps> = ({
+  children,
+  prefix,
+  suffix,
+  centered,
+}) => (
+  <>
+    {prefix && <ButtonIcon absolute={centered}>{prefix}</ButtonIcon>}
+    <span className="w-full">{children}</span>
+    {suffix && (
+      <ButtonIcon right absolute={centered}>
+        {suffix}
+      </ButtonIcon>
+    )}
+  </>
+);
+
+interface ButtonIconProps {
+  right?: boolean;
+  absolute?: boolean;
+  children?: ReactNode;
+}
+
+const ButtonIcon: FC<ButtonIconProps> = ({ children, right, absolute }) => (
+  <span
+    className={cn({
+      'ml-auto': right,
+      'mr-auto': !right,
+      'absolute right-4': absolute && right,
+      'absolute left-4': absolute && !right,
+    })}
+  >
+    {children}
+  </span>
+);
 
 type ButtonDefaultProps = ComponentProps<'button'>;
 

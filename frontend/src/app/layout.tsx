@@ -1,4 +1,5 @@
 import { Roboto, Roboto_Condensed } from 'next/font/google';
+import { ToastContainer } from 'react-toastify';
 
 import { Header } from '@/widgets/Header';
 
@@ -44,6 +45,7 @@ export default function RootLayout({
             <Header />
             <main className="container flex-1">{children}</main>
           </div>
+          <ToastContainer position="bottom-right" />
         </Providers>
       </body>
     </html>

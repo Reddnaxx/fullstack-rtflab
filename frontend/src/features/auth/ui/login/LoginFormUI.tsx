@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
+import { PasswordRevealButton } from '@/entities/password/ui';
 import {
   Button,
   Card,
@@ -12,12 +13,11 @@ import {
   CardContent,
   CardHeader,
   Icon,
-  IconButton,
   Input,
   Text,
 } from '@/shared/ui';
 
-import type { Credentials } from '../models/credentials';
+import type { Credentials } from '../../models/credentials';
 import type { FC } from 'react';
 
 export const loginFormSchema = z.object({
@@ -44,6 +44,7 @@ export const LoginFormUI: FC<LoginFormUIProps> = ({
     handleSubmit,
   } = useForm<LoginFormScheme>({
     resolver: zodResolver(loginFormSchema),
+    mode: 'onChange',
   });
 
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -55,7 +56,7 @@ export const LoginFormUI: FC<LoginFormUIProps> = ({
   return (
     <Card
       as="form"
-      className="flex w-fit min-w-[36rem] flex-col gap-6 rounded-3xl px-20 py-14"
+      className="flex w-fit min-w-[36rem] flex-col gap-2 rounded-3xl px-20 py-14"
       onSubmit={handleSubmit(onSubmit)}
     >
       <CardHeader>
@@ -70,7 +71,7 @@ export const LoginFormUI: FC<LoginFormUIProps> = ({
         </Text>
       </CardHeader>
 
-      <CardContent className="flex flex-col gap-4">
+      <CardContent className="mb-2 flex flex-col gap-4">
         <Input
           className="w-full"
           label="Email"
@@ -110,28 +111,16 @@ export const LoginFormUI: FC<LoginFormUIProps> = ({
               <Icon name={'loader'} className="animate-spin" />
             ) : undefined
           }
+          centered
           disabled={isSubmitting || !isValid}
         >
           Вход
         </Button>
       </CardActions>
+      <Button as="link" variant="text" href="/register" className="w-fit p-1">
+        Нет аккаунта?
+      </Button>
     </Card>
-  );
-};
-
-interface PasswordRevealButtonProps {
-  onClick: () => void;
-  isVisible: boolean;
-}
-
-const PasswordRevealButton: FC<PasswordRevealButtonProps> = ({
-  onClick,
-  isVisible,
-}) => {
-  return (
-    <IconButton type="button" onClick={onClick} variant="flat">
-      <Icon name={isVisible ? 'eye-slash' : 'eye'} />
-    </IconButton>
   );
 };
 

@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import type { User } from '@/entities/user/models';
 
-import { loginReducers } from './asyncReducers';
+import { loginReducers, registerReducers } from './asyncReducers';
 
 export interface AuthState {
   user: User | null;
@@ -23,15 +23,20 @@ const initialState: AuthState = {
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
-  reducers: {},
+  reducers: {
+    clearAuthError: state => {
+      state.error = null;
+    },
+  },
   extraReducers: builder => {
     loginReducers(builder);
+    registerReducers(builder);
   },
   selectors: {
     selectUser: (state: AuthState) => state.user,
     selectIsAuth: (state: AuthState) => state.isAuth,
-    selectIsLoading: (state: AuthState) => state.isLoading,
-    selectIsUpdating: (state: AuthState) => state.isUpdating,
+    selectIsAuthLoading: (state: AuthState) => state.isLoading,
+    selectIsAuthUpdating: (state: AuthState) => state.isUpdating,
     selectError: (state: AuthState) => state.error,
   },
 });
@@ -39,9 +44,11 @@ export const authSlice = createSlice({
 export const {
   selectUser,
   selectIsAuth,
-  selectIsLoading,
-  selectIsUpdating,
+  selectIsAuthLoading,
+  selectIsAuthUpdating,
   selectError,
 } = authSlice.selectors;
+
+export const { clearAuthError } = authSlice.actions;
 
 export default authSlice.reducer;

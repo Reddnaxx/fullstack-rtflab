@@ -49,3 +49,24 @@ export const Link: Story = {
     as: 'link',
   },
 };
+
+export const Disabled: Story = {
+  args: {
+    children: 'Click me!',
+    disabled: true,
+  },
+};
+
+export const WithPrefix: Story = {
+  args: {
+    children: 'Click me!',
+    prefix: '👍',
+  },
+};
+
+export const WithSuffix: Story = {
+  args: {
+    children: 'Click me!',
+    suffix: '👍',
+  },
+};

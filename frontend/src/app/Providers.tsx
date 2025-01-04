@@ -1,8 +1,10 @@
 'use client';
 
-import { useRef } from 'react';
+import { usePathname } from 'next/navigation';
+import { useEffect, useRef } from 'react';
 import { Provider } from 'react-redux';
 
+import { clearAuthError } from '@/features/auth/store/slice';
 import { makeStore } from '@/shared/lib/store';
 import type { AppStore } from '@/shared/lib/store';
 
@@ -14,10 +16,15 @@ export const Providers: FC<PropsWithChildren> = ({ children }) => (
 
 const StoreProvider: FC<PropsWithChildren> = ({ children }) => {
   const storeRef = useRef<AppStore | null>(null);
+  const pathname = usePathname();
 
   if (!storeRef.current) {
     storeRef.current = makeStore();
   }
+
+  useEffect(() => {
+    storeRef.current?.dispatch(clearAuthError());
+  }, [pathname]);
 
   return <Provider store={storeRef.current}>{children}</Provider>;
 };

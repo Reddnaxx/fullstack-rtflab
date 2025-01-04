@@ -5,18 +5,15 @@ import { useSelector } from 'react-redux';
 import { useAppDispatch } from '@/shared/lib/hooks/store';
 
 import { LoginFormUI } from './LoginFormUI';
-import { LoginAction } from '../store/actions';
-import { selectError, selectIsLoading } from '../store/slice';
+import { LoginAction } from '../../store/actions';
+import { selectError, selectIsAuthLoading } from '../../store/slice';
 
-import type { Credentials } from '../models/credentials';
-import type { FC } from 'react';
+import type { Credentials } from '../../models/credentials';
 
-interface LoginFormProps {}
-
-export const LoginForm: FC<LoginFormProps> = () => {
+export const LoginForm = () => {
   const dispatcher = useAppDispatch();
   const error = useSelector(selectError);
-  const isLoading = useSelector(selectIsLoading);
+  const isLoading = useSelector(selectIsAuthLoading);
 
   const handleSubmit = (credentials: Credentials) => {
     dispatcher(LoginAction(credentials));

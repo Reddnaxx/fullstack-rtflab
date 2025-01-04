@@ -24,7 +24,7 @@ type CardProps = HTMLProps & {
 };
 
 const cardVariants = {
-  raised: 'shadow-md',
+  raised: 'shadow-base',
   outlined: 'border border-gray-300',
 };
 
@@ -45,7 +45,7 @@ export const Card = forwardRef<HTMLDivElement & HTMLFormElement, CardProps>(
     return (
       <Component
         className={cn(
-          'flex flex-col gap-2 rounded-xl p-4 bg-slate-50',
+          'flex flex-col gap-2 rounded-xl p-4',
           variantClasses,
           className
         )}

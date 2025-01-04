@@ -6,5 +6,7 @@ export interface Credentials {
 export type LoginData = Credentials;
 
 export type RegisterData = Credentials & {
-  name: string;
+  firstName: string;
+  patronymic?: string;
+  lastName: string;
 };

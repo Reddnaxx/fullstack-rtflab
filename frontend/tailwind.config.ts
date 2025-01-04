@@ -20,6 +20,9 @@ export default {
       animation: {
         rollout200: 'rollout200 .5s ease-out',
       },
+      boxShadow: {
+        base: '0px 4px 12px rgba(0, 0, 0, .1)',
+      },
       fontFamily: {
         'roboto-condensed': [
           'Roboto Condensed',

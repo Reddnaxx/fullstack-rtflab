@@ -1,4 +1,4 @@
-import { ProfileMenuButton } from '@/features/profile';
+import { ProfileMenuButton } from '@/features/profile/ui';
 import { Logo } from '@/shared/ui';
 
 import type { FC } from 'react';

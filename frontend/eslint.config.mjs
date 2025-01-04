@@ -2,6 +2,7 @@ import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 
 import { FlatCompat } from '@eslint/eslintrc';
+import prettierRecommended from 'eslint-plugin-prettier/recommended';
 import tailwind from 'eslint-plugin-tailwindcss';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -30,6 +31,7 @@ const eslintConfig = [
     'plugin:storybook/recommended'
   ),
   ...tailwind.configs['flat/recommended'],
+  prettierRecommended,
   {
     settings: {
       'import/resolver': {

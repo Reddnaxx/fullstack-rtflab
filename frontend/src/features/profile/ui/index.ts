@@ -1,2 +1,2 @@
-export * from './ProfileMenu'
-export * from './ProfileMenuButton'
+export * from './ProfileMenu';
+export * from './ProfileMenuButton';

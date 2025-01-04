@@ -2,8 +2,8 @@
 
 import { useRef, useState } from 'react';
 
-import { cn } from '@/shared/helpers/cn';
-import { useOnOutsideClick } from '@/shared/hooks/useOnOutsideClick';
+import { cn } from '@/shared/lib/helpers/cn';
+import { useOnOutsideClick } from '@/shared/lib/hooks/useOnOutsideClick';
 import { IconButton, Icon } from '@/shared/ui';
 
 import { profileTabs } from '../../data';

@@ -1,19 +1,28 @@
-import { Geist, Geist_Mono } from 'next/font/google';
+import { Roboto, Roboto_Condensed } from 'next/font/google';
 
 import { Header } from '@/widgets/Header';
 
+import { Providers } from './Providers';
 import './globals.css';
 
 import type { Metadata } from 'next';
 
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin'],
+const roboto = Roboto({
+  display: 'swap',
+  weight: ['300', '400', '500', '700', '900'],
+  preload: true,
+  style: 'normal',
+  subsets: ['cyrillic', 'latin'],
+  variable: '--font-roboto-condensed',
 });
 
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
+const robotoCondensed = Roboto_Condensed({
+  display: 'swap',
+  weight: ['700'],
+  preload: true,
+  style: 'normal',
+  subsets: ['cyrillic', 'latin'],
+  variable: '--font-roboto-condensed',
 });
 
 export const metadata: Metadata = {
@@ -28,10 +37,14 @@ export default function RootLayout({
   return (
     <html lang="ru">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${roboto.className} ${robotoCondensed.variable} antialiased`}
       >
-        <Header />
-        <main className="container">{children}</main>
+        <Providers>
+          <div className="flex h-screen flex-col">
+            <Header />
+            <main className="container flex-1">{children}</main>
+          </div>
+        </Providers>
       </body>
     </html>
   );

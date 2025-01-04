@@ -1,8 +1,12 @@
 import Link from 'next/link';
 
-import { cn } from '@/shared/helpers/cn';
+import { cn } from '@/shared/lib/helpers/cn';
 
-import { buttonClasses, buttonSizeClasses } from './variants';
+import {
+  buttonClasses,
+  buttonDisabledClasses,
+  buttonSizeClasses,
+} from './variants';
 
 import type { ButtonColor, ButtonVariant, ButtonSize } from './types';
 import type { ComponentProps, FC, ReactNode } from 'react';
@@ -36,9 +40,10 @@ export const Button: FC<ButtonProps> = ({
   const sizeClasses = buttonSizeClasses[size];
 
   const classes = cn(
-    'text-white rounded-md transition-colors',
+    'flex items-center gap-3 rounded-md text-left text-white transition-colors',
     colorClasses,
     sizeClasses,
+    buttonDisabledClasses,
     { 'p-0': noPaddings },
     className
   );
@@ -50,7 +55,7 @@ export const Button: FC<ButtonProps> = ({
         {...(props as ComponentProps<typeof Link>)}
       >
         {prefix}
-        <span className="mr-auto">{children}</span>
+        <span className="mr-auto w-full">{children}</span>
         {suffix}
       </ButtonLink>
     );
@@ -59,7 +64,7 @@ export const Button: FC<ButtonProps> = ({
   return (
     <ButtonDefault className={classes} {...(props as ButtonDefaultProps)}>
       {prefix}
-      <span className="mr-auto">{children}</span>
+      <span className="mr-auto w-full">{children}</span>
       {suffix}
     </ButtonDefault>
   );
@@ -72,13 +77,7 @@ const ButtonDefault: FC<ButtonDefaultProps> = ({
   children,
   ...props
 }) => (
-  <button
-    className={cn(
-      'flex gap-3 text-white rounded-md transition-colors text-left',
-      className
-    )}
-    {...props}
-  >
+  <button className={cn(className)} {...props}>
     {children}
   </button>
 );
@@ -91,14 +90,7 @@ const ButtonLink: FC<ButtonLinkProps> = ({
   href,
   ...props
 }) => (
-  <Link
-    href={href}
-    className={cn(
-      'flex gap-3 text-white rounded-md transition-colors min-w-fit text-left',
-      className
-    )}
-    {...props}
-  >
+  <Link href={href} className={cn('min-w-fit', className)} {...props}>
     {children}
   </Link>
 );

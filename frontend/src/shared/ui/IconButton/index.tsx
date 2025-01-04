@@ -1,4 +1,4 @@
-import { cn } from '@/shared/helpers/cn';
+import { cn } from '@/shared/lib/helpers/cn';
 
 import type { ComponentProps, FC, ReactNode } from 'react';
 

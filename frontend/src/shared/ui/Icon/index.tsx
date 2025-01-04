@@ -1,7 +1,7 @@
 import Image from 'next/image';
 
 import { icons } from '../../constants/icons';
-import { cn } from '../../helpers/cn';
+import { cn } from '../../lib/helpers/cn';
 
 import type { IconName } from './types';
 import type { FC } from 'react';

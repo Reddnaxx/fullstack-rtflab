@@ -5,9 +5,9 @@ import { IconButton } from './index';
 import type { Meta, StoryObj } from '@storybook/react';
 
 const meta: Meta<typeof IconButton> = {
-  title: 'shared/IconButton',
+  title: 'shared/Buttons/IconButton',
   component: IconButton,
-  tags: ['ui', 'autodocs'],
+  tags: ['ui', 'button', 'autodocs'],
   argTypes: {
     color: {
       control: 'select',

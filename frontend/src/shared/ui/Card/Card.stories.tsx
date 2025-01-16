@@ -5,9 +5,9 @@ import { Card, CardActions, CardContent, CardHeader } from './index';
 import type { Meta, StoryObj } from '@storybook/react';
 
 const meta: Meta<typeof Card> = {
-  title: 'shared/Card',
+  title: 'shared/Layout/Card',
   component: Card,
-  tags: ['ui', 'autodocs'],
+  tags: ['ui', 'layout', 'autodocs'],
 };
 
 export default meta;

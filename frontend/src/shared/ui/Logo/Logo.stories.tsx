@@ -3,12 +3,13 @@ import { Logo } from '.';
 import type { Meta, StoryObj } from '@storybook/react';
 
 const meta: Meta<typeof Logo> = {
-  title: 'shared/Logo',
+  title: 'shared/Identity/Logo',
   component: Logo,
   parameters: {
     layout: 'centered',
   },
-  tags: ['ui', 'autodocs'],
+
+  tags: ['ui', 'identity', 'autodocs'],
 };
 
 export default meta;

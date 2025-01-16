@@ -5,9 +5,9 @@ import { Input } from './index';
 import type { Meta, StoryObj } from '@storybook/react';
 
 const meta: Meta<typeof Input> = {
-  title: 'shared/Input',
+  title: 'shared/Controls/Input',
   component: Input,
-  tags: ['ui', 'autodocs'],
+  tags: ['ui', 'control', 'autodocs'],
 };
 
 export default meta;

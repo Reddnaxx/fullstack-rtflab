@@ -1,8 +1,9 @@
-import type { Preview } from '@storybook/react';
-import '../src/app/globals.css';
-import RootLayout from '../src/app/layout';
 import React from 'react';
 import Providers from '../src/app/Providers';
+
+import '../src/app/globals.css';
+
+import type { Preview } from '@storybook/react';
 
 const preview: Preview = {
   parameters: {
@@ -14,23 +15,11 @@ const preview: Preview = {
     },
   },
   decorators: [
-    (Story, { parameters }) => {
-      const { pageLayout } = parameters;
-
-      if (pageLayout) {
-        return (
-          <RootLayout>
-            <Story />
-          </RootLayout>
-        );
-      }
-
-      return (
-        <Providers>
-          <Story />
-        </Providers>
-      );
-    },
+    Story => (
+      <Providers>
+        <Story />
+      </Providers>
+    ),
   ],
 };
 

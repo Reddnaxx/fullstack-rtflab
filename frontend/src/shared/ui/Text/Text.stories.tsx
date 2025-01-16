@@ -3,9 +3,9 @@ import { Text } from './index';
 import type { Meta, StoryObj } from '@storybook/react';
 
 const meta = {
-  title: 'shared/Text',
+  title: 'shared/Layout/Text',
   component: Text,
-  tags: ['ui', 'autodocs'],
+  tags: ['ui', 'layout', 'autodocs'],
 } satisfies Meta<typeof Text>;
 
 export default meta;

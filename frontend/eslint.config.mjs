@@ -21,7 +21,7 @@ const eslintConfig = [
     },
   },
   {
-    files: ['**.{ts,tsx}'],
+    files: ['**/*.{ts,tsx}'],
   },
   ...compat.extends(
     'next/core-web-vitals',

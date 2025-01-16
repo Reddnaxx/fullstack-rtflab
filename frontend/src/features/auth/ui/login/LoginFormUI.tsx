@@ -117,7 +117,13 @@ export const LoginFormUI: FC<LoginFormUIProps> = ({
           Вход
         </Button>
       </CardActions>
-      <Button as="link" variant="text" href="/register" className="w-fit p-1">
+      <Button
+        as="link"
+        variant="text"
+        replace
+        href="/register"
+        className="w-fit p-1"
+      >
         Нет аккаунта?
       </Button>
     </Card>

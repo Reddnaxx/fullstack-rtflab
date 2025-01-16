@@ -11,7 +11,8 @@ import {
 import type { ButtonColor, ButtonVariant, ButtonSize } from './types';
 import type { ComponentProps, FC, ReactNode } from 'react';
 
-type ButtonCommonProps = ComponentProps<'button'> & ComponentProps<'a'>;
+type ButtonCommonProps = ComponentProps<'button'> &
+  Partial<ComponentProps<typeof Link>>;
 
 type ButtonProps = Omit<ButtonCommonProps, 'prefix'> & {
   as?: 'button' | 'link';

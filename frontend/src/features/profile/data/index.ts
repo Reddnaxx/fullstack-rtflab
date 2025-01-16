@@ -1,3 +1,6 @@
+import { LogoutAction } from '@/features/auth/store/actions';
+import { store } from '@/shared/lib/store';
+
 import type { IProfileTab } from '../models';
 
 export const profileTabs: IProfileTab[] = [
@@ -15,7 +18,7 @@ export const profileTabs: IProfileTab[] = [
     title: 'Выйти',
     icon: 'exit',
     onClick: () => {
-      console.log('exit');
+      store.dispatch(LogoutAction());
     },
   },
 ];

@@ -62,7 +62,7 @@ const ProfileButtonTab: FC<ProfileTabProps> = ({ tab }) => {
     <Button
       className="w-full font-bold text-black transition-colors"
       variant="text"
-      onClick={onClick!}
+      onClick={onClick}
       prefix={icon && <Icon name={icon} />}
     >
       {title}

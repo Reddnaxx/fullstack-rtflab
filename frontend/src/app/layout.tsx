@@ -7,6 +7,7 @@ import { Providers } from './Providers';
 import './globals.css';
 
 import type { Metadata } from 'next';
+import type { ReactNode } from 'react';
 
 const roboto = Roboto({
   display: 'swap',
@@ -30,11 +31,11 @@ export const metadata: Metadata = {
   title: 'RTFLab',
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+interface LayoutProps {
+  children: ReactNode;
+}
+
+export default function RootLayout({ children }: Readonly<LayoutProps>) {
   return (
     <html lang="ru">
       <body

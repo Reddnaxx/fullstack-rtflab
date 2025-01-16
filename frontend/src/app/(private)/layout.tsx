@@ -1,8 +1,12 @@
-import { AuthWrapper } from '@/features/auth/ui/wrapper';
+import { AuthWrapper } from '@/features/auth/ui';
 
-import type { FC, PropsWithChildren } from 'react';
+import type { FC, ReactNode } from 'react';
 
-const layout: FC<PropsWithChildren> = ({ children }) => {
+interface LayoutProps {
+  children: ReactNode;
+}
+
+const layout: FC<LayoutProps> = ({ children }) => {
   return <AuthWrapper>{children}</AuthWrapper>;
 };
 

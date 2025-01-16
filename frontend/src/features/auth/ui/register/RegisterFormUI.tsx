@@ -175,7 +175,13 @@ export const RegisterFormUI: FC<RegisterFormUIProps> = ({
           Зарегистрироваться
         </Button>
       </CardActions>
-      <Button as="link" variant="text" href="/login" className="w-fit p-1">
+      <Button
+        as="link"
+        variant="text"
+        replace
+        href="/login"
+        className="w-fit p-1"
+      >
         Уже есть аккаунт?
       </Button>
     </Card>

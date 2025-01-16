@@ -28,7 +28,7 @@ const cardVariants = {
   outlined: 'border border-gray-300',
 };
 
-export const Card = forwardRef<HTMLDivElement & HTMLFormElement, CardProps>(
+export const Card = forwardRef<HTMLDivElement | HTMLFormElement, CardProps>(
   (
     {
       children,
@@ -45,11 +45,12 @@ export const Card = forwardRef<HTMLDivElement & HTMLFormElement, CardProps>(
     return (
       <Component
         className={cn(
-          'flex flex-col gap-2 rounded-xl p-4',
+          'flex flex-col gap-2 rounded-xl p-4 bg-white',
           variantClasses,
           className
         )}
-        ref={ref}
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        ref={ref as any}
         {...props}
       >
         {children}

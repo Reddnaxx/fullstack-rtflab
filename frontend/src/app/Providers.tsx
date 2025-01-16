@@ -5,7 +5,7 @@ import { useEffect, useRef } from 'react';
 import { Provider } from 'react-redux';
 
 import { clearAuthError } from '@/features/auth/store/slice';
-import { makeStore } from '@/shared/lib/store';
+import { store } from '@/shared/lib/store';
 import type { AppStore } from '@/shared/lib/store';
 
 import type { FC, PropsWithChildren } from 'react';
@@ -19,7 +19,7 @@ const StoreProvider: FC<PropsWithChildren> = ({ children }) => {
   const pathname = usePathname();
 
   if (!storeRef.current) {
-    storeRef.current = makeStore();
+    storeRef.current = store;
   }
 
   useEffect(() => {

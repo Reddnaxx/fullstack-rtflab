@@ -2,7 +2,15 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import type { User } from '@/entities/user/models';
 
-import { loginReducers, registerReducers } from './asyncReducers';
+import {
+  loginReducers,
+  logoutReducers,
+  registerReducers,
+} from './asyncReducers';
+
+import type { ActionReducerMapBuilder } from '@reduxjs/toolkit';
+
+export type AuthBuilder = ActionReducerMapBuilder<AuthState>;
 
 export interface AuthState {
   user: User | null;
@@ -31,6 +39,7 @@ export const authSlice = createSlice({
   extraReducers: builder => {
     loginReducers(builder);
     registerReducers(builder);
+    logoutReducers(builder);
   },
   selectors: {
     selectUser: (state: AuthState) => state.user,

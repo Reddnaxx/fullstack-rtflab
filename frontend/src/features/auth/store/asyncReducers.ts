@@ -1,9 +1,8 @@
-import { LoginAction, RegisterAction } from './actions';
+import { LoginAction, LogoutAction, RegisterAction } from './actions';
 
-import type { AuthState } from './slice';
-import type { ActionReducerMapBuilder } from '@reduxjs/toolkit';
+import type { AuthBuilder } from './slice';
 
-export const loginReducers = (builder: ActionReducerMapBuilder<AuthState>) => {
+export const loginReducers = (builder: AuthBuilder) => {
   builder.addCase(LoginAction.pending, state => {
     state.isLoading = true;
   });
@@ -19,9 +18,7 @@ export const loginReducers = (builder: ActionReducerMapBuilder<AuthState>) => {
   });
 };
 
-export const registerReducers = (
-  builder: ActionReducerMapBuilder<AuthState>
-) => {
+export const registerReducers = (builder: AuthBuilder) => {
   builder.addCase(RegisterAction.pending, state => {
     state.isLoading = true;
   });
@@ -32,6 +29,22 @@ export const registerReducers = (
     state.error = null;
   });
   builder.addCase(RegisterAction.rejected, (state, { error }) => {
+    state.isLoading = false;
+    state.error = error.message ?? 'Unknown error';
+  });
+};
+
+export const logoutReducers = (builder: AuthBuilder) => {
+  builder.addCase(LogoutAction.pending, state => {
+    state.isLoading = true;
+  });
+  builder.addCase(LogoutAction.fulfilled, state => {
+    state.isLoading = false;
+    state.isAuth = false;
+    state.user = null;
+    state.error = null;
+  });
+  builder.addCase(LogoutAction.rejected, (state, { error }) => {
     state.isLoading = false;
     state.error = error.message ?? 'Unknown error';
   });

@@ -1,25 +1,19 @@
 import { NestFactory } from '@nestjs/core';
-import { ConfigService } from '@nestjs/config';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { SwaggerModule } from '@nestjs/swagger';
+import * as cookieParser from 'cookie-parser';
 
 import { AppModule } from './app.module';
+import { swaggerConfig } from './configs';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  const options = new DocumentBuilder()
-    .setTitle('RTFLab API')
-    .setDescription('RTFLab API for UrFU project')
-    .setVersion('1.0')
-    .addServer('http://localhost:8000', 'Local environment')
-    .addCookieAuth('access-token')
-    .build();
 
-  const document = SwaggerModule.createDocument(app, options);
-  SwaggerModule.setup('docs', app, document);
+  app.use(cookieParser());
 
-  const configService = app.get(ConfigService);
-  const port = configService.get<number>('port')!;
+  SwaggerModule.setup('docs', app, () =>
+    SwaggerModule.createDocument(app, swaggerConfig)
+  );
 
-  await app.listen(port);
+  await app.listen(process.env.PORT ?? 8000);
 }
 bootstrap();

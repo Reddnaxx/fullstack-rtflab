@@ -1,35 +1,108 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
+import { Prisma } from '@prisma/client';
+import { Response } from 'express';
 
-import { JwtService } from '@app/jwt';
+import { PrismaService } from '@app/prisma';
+import { UtilsService } from '@app/utils';
+import { jwtConfig } from 'src/configs/jwt.config';
 
-import { IAuthService } from './interfaces/auth.service.interface';
-import { AuthDto, RegisterDto } from './interfaces/auth-credentials.interface';
-import { AuthResponseDto } from './models/auth-response.dto';
+import { LoginDto, RegisterDto } from './dto';
 
 @Injectable()
-export class AuthService implements IAuthService {
-  constructor(private readonly jwt: JwtService) {}
+export class AuthService {
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly utils: UtilsService,
+    private readonly jwtService: JwtService
+  ) {}
 
-  login(credentials: AuthDto): AuthResponseDto {
-    const { email, password } = credentials;
+  async register(data: RegisterDto) {
+    try {
+      const password = await this.utils.encrypt(data.password);
+      const user = await this.prisma.user.create({
+        data: { ...data, password, roles: ['USER'] },
+        omit: {
+          createdAt: true,
+          updatedAt: true,
+          password: true,
+        },
+      });
 
-    if (email === 'test' && password === 'test') {
+      const payload = { sub: user.id };
+
       return {
-        id: '1',
-        email: 'test',
-        name: 'test',
-        role: 'admin',
+        user,
+        tokens: {
+          accessToken: await this.jwtService.signAsync(payload, {
+            expiresIn: '1d',
+          }),
+          refreshToken: await this.jwtService.signAsync(payload, {
+            expiresIn: '7d',
+          }),
+        },
       };
+    } catch (e) {
+      if (e instanceof Prisma.PrismaClientKnownRequestError) {
+        if (e.code === 'P2002') {
+          throw new BadRequestException(
+            'User with provided email already exists'
+          );
+        }
+      }
+    }
+  }
+
+  async login(data: LoginDto) {
+    const user = await this.prisma.user.findUnique({
+      where: { email: data.email },
+      omit: {
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
+
+    if (user) {
+      const passwordMatch = await this.utils.compareHash(
+        data.password,
+        user.password
+      );
+
+      if (passwordMatch) {
+        delete user.password;
+
+        const payload = { sub: user.id };
+
+        return {
+          user,
+          tokens: {
+            accessToken: await this.jwtService.signAsync(payload, {
+              expiresIn: jwtConfig.accessTokenExpiresIn,
+            }),
+            refreshToken: await this.jwtService.signAsync(payload, {
+              expiresIn: jwtConfig.refreshTokenExpiresIn,
+            }),
+          },
+        };
+      }
     }
 
-    throw new NotFoundException('User with such credentials not found');
+    throw new UnauthorizedException('Invalid credentials');
   }
 
-  register(credentials: RegisterDto): AuthResponseDto {
-    throw new Error('Method not implemented.');
-  }
-
-  refresh(token: string): void {
-    throw new Error('Method not implemented.');
+  setJwtCookies(
+    response: Response,
+    tokens: { accessToken: string; refreshToken: string }
+  ) {
+    response.cookie('accessToken', 'Bearer ' + tokens.accessToken, {
+      httpOnly: true,
+    });
+    response.cookie('refreshToken', 'Bearer ' + tokens.refreshToken, {
+      httpOnly: true,
+    });
   }
 }

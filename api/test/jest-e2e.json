@@ -11,9 +11,9 @@
     "^.+\\.(t|j)s$": "ts-jest"
   },
   "moduleNameMapper": {
-    "@jwt/jwt/(.*)": "<rootDir>/../libs/jwt/src/$1",
-    "@jwt/jwt": "<rootDir>/../libs/jwt/src",
-    "@app/jwt/(.*)": "<rootDir>/../libs/jwt/src/$1",
-    "@app/jwt": "<rootDir>/../libs/jwt/src"
+    "@app/prisma/(.*)": "<rootDir>/../libs/prisma/src/$1",
+    "@app/prisma": "<rootDir>/../libs/prisma/src",
+    "@app/utils/(.*)": "<rootDir>/../libs/utils/src/$1",
+    "@app/utils": "<rootDir>/../libs/utils/src"
   }
 }

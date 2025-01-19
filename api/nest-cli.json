@@ -7,13 +7,22 @@
     "webpack": true
   },
   "projects": {
-    "jwt": {
+    "prisma": {
       "type": "library",
-      "root": "libs/jwt",
+      "root": "libs/prisma",
       "entryFile": "index",
-      "sourceRoot": "libs/jwt/src",
+      "sourceRoot": "libs/prisma/src",
       "compilerOptions": {
-        "tsConfigPath": "libs/jwt/tsconfig.lib.json"
+        "tsConfigPath": "libs/prisma/tsconfig.lib.json"
+      }
+    },
+    "utils": {
+      "type": "library",
+      "root": "libs/utils",
+      "entryFile": "index",
+      "sourceRoot": "libs/utils/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/utils/tsconfig.lib.json"
       }
     }
   }

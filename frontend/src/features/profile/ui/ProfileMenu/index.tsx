@@ -8,11 +8,12 @@ import type { FC } from 'react';
 
 interface ProfileMenuProps {
   tabs: IProfileTab[];
+  onClose: () => void;
   className?: string;
 }
 
 export const ProfileMenu = forwardRef<HTMLDivElement, ProfileMenuProps>(
-  ({ tabs, className }, ref) => {
+  ({ tabs, onClose, className }, ref) => {
     return (
       <Card
         as="nav"
@@ -23,9 +24,9 @@ export const ProfileMenu = forwardRef<HTMLDivElement, ProfileMenuProps>(
           {tabs.map(tab => (
             <li key={tab.title}>
               {tab.route ? (
-                <ProfileLinkTab tab={tab} />
+                <ProfileLinkTab tab={tab} onClose={onClose} />
               ) : (
-                <ProfileButtonTab tab={tab} />
+                <ProfileButtonTab tab={tab} onClose={onClose} />
               )}
             </li>
           ))}
@@ -37,9 +38,9 @@ export const ProfileMenu = forwardRef<HTMLDivElement, ProfileMenuProps>(
 
 ProfileMenu.displayName = 'ProfileMenu';
 
-type ProfileTabProps = { tab: IProfileTab };
+type ProfileTabProps = { tab: IProfileTab; onClose: () => void };
 
-const ProfileLinkTab: FC<ProfileTabProps> = ({ tab }) => {
+const ProfileLinkTab: FC<ProfileTabProps> = ({ tab, onClose: onClick }) => {
   const { route, title, icon } = tab;
 
   return (
@@ -49,20 +50,26 @@ const ProfileLinkTab: FC<ProfileTabProps> = ({ tab }) => {
       className="w-full font-bold text-black transition-colors"
       variant="text"
       prefix={icon && <Icon name={icon} />}
+      onClick={onClick}
     >
       {title}
     </Button>
   );
 };
 
-const ProfileButtonTab: FC<ProfileTabProps> = ({ tab }) => {
-  const { onClick, title, icon } = tab;
+const ProfileButtonTab: FC<ProfileTabProps> = ({ tab, onClose: onClick }) => {
+  const { onClick: onTabClick, title, icon } = tab;
+
+  const handleClick = () => {
+    onTabClick?.();
+    onClick();
+  };
 
   return (
     <Button
       className="w-full font-bold text-black transition-colors"
       variant="text"
-      onClick={onClick}
+      onClick={handleClick}
       prefix={icon && <Icon name={icon} />}
     >
       {title}

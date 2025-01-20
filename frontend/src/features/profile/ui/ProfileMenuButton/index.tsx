@@ -41,6 +41,7 @@ export const ProfileMenuButton: FC<ProfileMenuButtonProps> = ({
       </IconButton>
       {isMenuOpen && (
         <ProfileMenu
+          onClose={() => setIsMenuOpen(false)}
           tabs={profileTabs}
           ref={menuRef}
           className="absolute right-0 top-full w-56 animate-rollout200"

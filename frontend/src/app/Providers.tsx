@@ -4,6 +4,8 @@ import { usePathname } from 'next/navigation';
 import { useEffect, useRef } from 'react';
 import { Provider } from 'react-redux';
 
+import { validateToken } from '@/features/auth/api';
+import { LoadCurrentUserAction } from '@/features/auth/store/actions';
 import { clearAuthError } from '@/features/auth/store/slice';
 import { store } from '@/shared/lib/store';
 import type { AppStore } from '@/shared/lib/store';
@@ -23,7 +25,19 @@ const StoreProvider: FC<PropsWithChildren> = ({ children }) => {
   }
 
   useEffect(() => {
-    storeRef.current?.dispatch(clearAuthError());
+    const currentStore = storeRef.current;
+
+    if (!currentStore?.getState().auth.user) {
+      validateToken().then(valid => {
+        if (valid) {
+          currentStore?.dispatch(LoadCurrentUserAction());
+        }
+      });
+    }
+
+    if (currentStore?.getState().auth.error) {
+      currentStore.dispatch(clearAuthError());
+    }
   }, [pathname]);
 
   return <Provider store={storeRef.current}>{children}</Provider>;

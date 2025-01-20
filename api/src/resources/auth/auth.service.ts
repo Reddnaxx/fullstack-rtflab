@@ -125,6 +125,20 @@ export class AuthService {
     };
   }
 
+  async validateToken(token: string) {
+    try {
+      await this.jwtService.verifyAsync(token);
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  async logout(response: Response) {
+    response.clearCookie('accessToken');
+    response.clearCookie('refreshToken');
+  }
+
   setJwtCookies(
     response: Response,
     tokens: { accessToken: string; refreshToken: string }

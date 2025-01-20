@@ -1,6 +1,7 @@
 import { Roboto, Roboto_Condensed } from 'next/font/google';
 import { ToastContainer } from 'react-toastify';
 
+import { AuthLoaderWrapper } from '@/features/auth/ui';
 import { Header } from '@/widgets/Header';
 
 import { Providers } from './Providers';
@@ -42,10 +43,12 @@ export default function RootLayout({ children }: Readonly<LayoutProps>) {
         className={`${roboto.className} ${robotoCondensed.variable} antialiased`}
       >
         <Providers>
-          <div className="flex h-screen flex-col">
-            <Header />
-            <main className="container flex-1">{children}</main>
-          </div>
+          <AuthLoaderWrapper>
+            <div className="flex h-screen flex-col">
+              <Header />
+              <main className="container flex-1">{children}</main>
+            </div>
+          </AuthLoaderWrapper>
           <ToastContainer position="bottom-right" />
         </Providers>
       </body>

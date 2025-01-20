@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-import { login, logout, register } from '../api';
+import { loadCurrentUser, login, logout, register } from '../api';
 
 import type { LoginData, RegisterData } from '../models';
 
@@ -16,4 +16,9 @@ export const RegisterAction = createAsyncThunk(
 
 export const LogoutAction = createAsyncThunk('auth/logout', async () =>
   logout()
+);
+
+export const LoadCurrentUserAction = createAsyncThunk(
+  'auth/loadUser',
+  async () => loadCurrentUser()
 );

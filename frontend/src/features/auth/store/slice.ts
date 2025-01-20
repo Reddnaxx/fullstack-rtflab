@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import type { User } from '@/entities/user/models';
 
 import {
+  loadCurrentUserReducers,
   loginReducers,
   logoutReducers,
   registerReducers,
@@ -40,6 +41,7 @@ export const authSlice = createSlice({
     loginReducers(builder);
     registerReducers(builder);
     logoutReducers(builder);
+    loadCurrentUserReducers(builder);
   },
   selectors: {
     selectUser: (state: AuthState) => state.user,

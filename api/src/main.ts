@@ -13,6 +13,10 @@ async function bootstrap() {
   app.setGlobalPrefix(v1Prefix);
 
   app.use(cookieParser());
+  app.enableCors({
+    credentials: true,
+    origin: 'http://localhost:3000',
+  });
 
   const authService = app.get(AuthService);
   const jwtService = app.get(JwtService);

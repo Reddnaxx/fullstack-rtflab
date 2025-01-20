@@ -1,4 +1,9 @@
-import { LoginAction, LogoutAction, RegisterAction } from './actions';
+import {
+  LoadCurrentUserAction,
+  LoginAction,
+  LogoutAction,
+  RegisterAction,
+} from './actions';
 
 import type { AuthBuilder } from './slice';
 
@@ -46,6 +51,27 @@ export const logoutReducers = (builder: AuthBuilder) => {
   });
   builder.addCase(LogoutAction.rejected, (state, { error }) => {
     state.isLoading = false;
+    state.error = error.message ?? 'Unknown error';
+  });
+};
+
+export const loadCurrentUserReducers = (builder: AuthBuilder) => {
+  builder.addCase(LoadCurrentUserAction.pending, state => {
+    state.isUpdating = true;
+  });
+  builder.addCase(
+    LoadCurrentUserAction.fulfilled,
+    (state, { payload: user }) => {
+      state.isUpdating = false;
+      state.isAuth = true;
+      state.user = user;
+      state.error = null;
+    }
+  );
+  builder.addCase(LoadCurrentUserAction.rejected, (state, { error }) => {
+    state.isUpdating = false;
+    state.isAuth = false;
+    state.user = null;
     state.error = error.message ?? 'Unknown error';
   });
 };

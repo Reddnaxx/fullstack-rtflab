@@ -57,6 +57,13 @@ export class AuthController {
     return user;
   }
 
+  @Post('logout')
+  async logout(@Res({ passthrough: true }) res: Response) {
+    this.authService.logout(res);
+
+    return { message: 'User logged out successfully' };
+  }
+
   @Post('refresh')
   @PrivateAccess()
   async refresh(
@@ -79,5 +86,15 @@ export class AuthController {
     } catch {
       throw new UnauthorizedException('Invalid refresh token');
     }
+  }
+
+  @Post('validate')
+  async validate(@Req() request: Request) {
+    const [type, token] = request.cookies['accessToken']?.split(' ') ?? [];
+
+    return {
+      result:
+        type === 'Bearer' && (await this.authService.validateToken(token)),
+    };
   }
 }

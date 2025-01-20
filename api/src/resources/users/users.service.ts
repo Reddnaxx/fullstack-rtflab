@@ -42,8 +42,16 @@ export class UsersService {
     return user;
   }
 
-  async update(where: Prisma.UserWhereUniqueInput, dto: UpdateUserDto) {
+  async update(
+    where: Prisma.UserWhereUniqueInput,
+    dto: UpdateUserDto,
+    isAdmin: boolean = false
+  ) {
     try {
+      if (!isAdmin) {
+        delete dto['roles'];
+      }
+
       const user = await this.prisma.user.update({
         where,
         data: {

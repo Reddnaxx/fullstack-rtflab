@@ -1,6 +1,7 @@
 import {
   BadRequestException,
   Injectable,
+  NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
@@ -9,7 +10,7 @@ import { Response } from 'express';
 
 import { PrismaService } from '@app/prisma';
 import { UtilsService } from '@app/utils';
-import { jwtConfig } from 'src/configs/jwt.config';
+import { jwtConfig } from 'src/configs';
 
 import { LoginDto, RegisterDto } from './dto';
 
@@ -33,16 +34,17 @@ export class AuthService {
         },
       });
 
-      const payload = { sub: user.id };
+      const payload = { sub: user.id, roles: user.roles };
+      const refreshPayload = { ...payload, refresh: true };
 
       return {
         user,
         tokens: {
           accessToken: await this.jwtService.signAsync(payload, {
-            expiresIn: '1d',
+            expiresIn: jwtConfig.accessTokenExpiresIn,
           }),
-          refreshToken: await this.jwtService.signAsync(payload, {
-            expiresIn: '7d',
+          refreshToken: await this.jwtService.signAsync(refreshPayload, {
+            expiresIn: jwtConfig.refreshTokenExpiresIn,
           }),
         },
       };
@@ -75,7 +77,8 @@ export class AuthService {
       if (passwordMatch) {
         delete user.password;
 
-        const payload = { sub: user.id };
+        const payload = { sub: user.id, roles: user.roles };
+        const refreshPayload = { ...payload, refresh: true };
 
         return {
           user,
@@ -83,7 +86,7 @@ export class AuthService {
             accessToken: await this.jwtService.signAsync(payload, {
               expiresIn: jwtConfig.accessTokenExpiresIn,
             }),
-            refreshToken: await this.jwtService.signAsync(payload, {
+            refreshToken: await this.jwtService.signAsync(refreshPayload, {
               expiresIn: jwtConfig.refreshTokenExpiresIn,
             }),
           },
@@ -92,6 +95,34 @@ export class AuthService {
     }
 
     throw new UnauthorizedException('Invalid credentials');
+  }
+
+  async refreshTokens(refreshToken: string) {
+    const payload = await this.jwtService.verifyAsync(refreshToken);
+
+    if (!payload.refresh) {
+      throw new UnauthorizedException('Invalid refresh token');
+    }
+
+    const refreshPayload = { ...payload, refresh: true };
+
+    const user = await this.prisma.user.findUnique({
+      where: { id: payload.sub },
+      omit: {
+        createdAt: true,
+        updatedAt: true,
+        password: true,
+      },
+    });
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    return {
+      accessToken: await this.jwtService.signAsync(payload),
+      refreshToken: await this.jwtService.signAsync(refreshPayload),
+    };
   }
 
   setJwtCookies(

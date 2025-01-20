@@ -1,18 +1,20 @@
 import {
   Body,
   Controller,
-  NotImplementedException,
   Post,
+  Req,
   Res,
+  UnauthorizedException,
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiCreatedResponse,
   ApiOkResponse,
 } from '@nestjs/swagger';
-import { Response } from 'express';
+import { Request, Response } from 'express';
 
 import { AuthService } from './auth.service';
+import { PrivateAccess } from './decorators';
 import { AuthResponseDto, LoginDto, RegisterDto } from './dto';
 
 @Controller('auth')
@@ -56,7 +58,26 @@ export class AuthController {
   }
 
   @Post('refresh')
-  async refresh() {
-    throw new NotImplementedException('This method is not implemented');
+  @PrivateAccess()
+  async refresh(
+    @Req() req: Request,
+    @Res({ passthrough: true }) res: Response
+  ) {
+    try {
+      const [type, token] = req.cookies['refreshToken'].split(' ') || [];
+
+      if (type !== 'Bearer') {
+        throw new UnauthorizedException('Invalid refresh token');
+      }
+
+      const { accessToken, refreshToken } =
+        await this.authService.refreshTokens(token);
+
+      this.authService.setJwtCookies(res, { accessToken, refreshToken });
+
+      return { message: 'Tokens refreshed successfully' };
+    } catch {
+      throw new UnauthorizedException('Invalid refresh token');
+    }
   }
 }

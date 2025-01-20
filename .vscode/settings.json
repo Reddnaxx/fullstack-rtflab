@@ -1,8 +1,8 @@
 {
-  "editor.formatOnSave": false,
   "eslint.validate": ["typescript"],
+  "cSpell.words": ["IJWT"],
   "editor.codeActionsOnSave": {
-    "source.fixAll": "explicit"
-  },
-  "cSpell.words": ["IJWT"]
+    "source.organizeImports": "never",
+    "source.removeUnusedImports": "explicit"
+  }
 }

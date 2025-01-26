@@ -1,6 +1,6 @@
 import type { IconName } from '@/shared/ui';
 
-export interface IProfileTab {
+export interface ProfileMenuTab {
   title: string;
   icon?: IconName;
   route?: string;

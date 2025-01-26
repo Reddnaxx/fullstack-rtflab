@@ -5,3 +5,4 @@ export * from './Input';
 export * from './Card';
 export * from './Text';
 export * from './Icon';
+export * from './TextArea';

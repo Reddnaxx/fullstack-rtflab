@@ -56,13 +56,18 @@ export class UsersService {
         where,
         data: {
           ...dto,
-          password: await this.utilsService.encrypt(dto.password),
+          password:
+            dto.password && (await this.utilsService.encrypt(dto.password)),
         },
         omit: this.omit,
       });
       return user;
-    } catch {
-      throw new NotFoundException('User not found');
+    } catch (e) {
+      if (e.code === 'P2025') {
+        throw new NotFoundException('User not found');
+      }
+
+      throw e;
     }
   }
 

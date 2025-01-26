@@ -4,20 +4,19 @@ import { cn } from '../../lib/helpers/cn';
 
 import type { ComponentProps, FC, ReactNode } from 'react';
 
-type InputProps = Omit<ComponentProps<'input'>, 'prefix'> & {
+type TextareaProps = Omit<ComponentProps<'textarea'>, 'prefix'> & {
   label: string;
   prefix?: ReactNode;
   suffix?: ReactNode;
   error?: string;
 };
 
-export const Input = forwardRef<HTMLInputElement, InputProps>(
+export const TextArea = forwardRef<HTMLTextAreaElement, TextareaProps>(
   (
     {
       label,
       className,
       placeholder,
-      type,
       suffix,
       prefix,
       error,
@@ -26,8 +25,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     },
     ref
   ) => {
-    const inputClassNames = cn(
-      'p-2 border border-gray-400 rounded-md hover:border-black peer pt-3.5 placeholder:opacity-0 focus:placeholder:opacity-100 placeholder:transition-opacity outline-0 focus:outline-2 outline-blue-500 w-full transition-all autofill:outline-2',
+    const textareaClassNames = cn(
+      'p-2 border border-gray-400 rounded-md hover:border-black peer pt-5 outline-0 focus:outline-2 outline-blue-500 w-full transition-colors autofill:outline-2',
       {
         'pl-9': prefix,
         'pr-9': suffix,
@@ -38,15 +37,14 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     return (
       <label className={cn('flex w-fit flex-col gap-1 text-lg', className)}>
         <div className="relative">
-          <input
+          <textarea
             ref={ref}
-            type={type}
             placeholder={placeholder ?? ''}
-            className={inputClassNames}
+            className={textareaClassNames}
             {...props}
           />
 
-          <InputLabel
+          <TextAreaLabel
             className={cn({
               'pl-7': prefix,
             })}
@@ -55,38 +53,38 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             {required && (
               <span className="pl-[.25ch] font-light text-red-400">*</span>
             )}
-          </InputLabel>
+          </TextAreaLabel>
 
           {prefix && (
-            <InputAttachment childrenPosition={'prefix'}>
+            <TextareaAttachment childrenPosition={'prefix'}>
               {prefix}
-            </InputAttachment>
+            </TextareaAttachment>
           )}
           {suffix && (
-            <InputAttachment childrenPosition={'suffix'}>
+            <TextareaAttachment childrenPosition={'suffix'}>
               {suffix}
-            </InputAttachment>
+            </TextareaAttachment>
           )}
         </div>
 
-        {error && <InputError error={error} />}
+        {error && <TextareaError error={error} />}
       </label>
     );
   }
 );
 
-Input.displayName = 'Input';
+TextArea.displayName = 'Textarea';
 
-interface InputLabelProps {
+interface TextAreaLabelProps {
   children?: ReactNode;
   className?: string;
 }
 
-const InputLabel: FC<InputLabelProps> = ({ children, className }) => {
+const TextAreaLabel: FC<TextAreaLabelProps> = ({ children, className }) => {
   return (
     <span
       className={cn(
-        'pointer-events-none absolute left-2 top-1/2 -translate-y-1/2 select-none transition-all peer-focus:top-3 peer-focus:text-sm peer-[:not(:placeholder-shown)]:top-3 peer-[:not(:placeholder-shown)]:text-sm peer-autofill:text-sm peer-autofill:top-3',
+        'pointer-events-none absolute left-2 top-1 text-sm select-none transition-all',
         className
       )}
     >
@@ -95,12 +93,12 @@ const InputLabel: FC<InputLabelProps> = ({ children, className }) => {
   );
 };
 
-interface InputChildrenProps {
+interface TextareaChildrenProps {
   childrenPosition?: 'prefix' | 'suffix';
   children: ReactNode;
 }
 
-const InputAttachment: FC<InputChildrenProps> = ({
+const TextareaAttachment: FC<TextareaChildrenProps> = ({
   childrenPosition,
   children,
 }) => {
@@ -116,12 +114,12 @@ const InputAttachment: FC<InputChildrenProps> = ({
   );
 };
 
-interface InputErrorProps {
+interface TextareaErrorProps {
   error: string;
 }
 
-const InputError: FC<InputErrorProps> = ({ error }) => {
+const TextareaError: FC<TextareaErrorProps> = ({ error }) => {
   return <span className="text-sm text-red-500">{error}</span>;
 };
 
-export default Input;
+export default TextArea;

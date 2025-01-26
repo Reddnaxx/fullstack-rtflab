@@ -28,4 +28,10 @@ export class AuthResponseDto
   name: string;
   @ApiProperty({ required: false, default: ['USER'] })
   roles: $Enums.Role[] = ['USER'];
+  @ApiProperty({ required: false })
+  telegram: string;
+  @ApiProperty({ required: false })
+  about: string;
+  @ApiProperty({ required: false, isArray: true })
+  skills: string[];
 }

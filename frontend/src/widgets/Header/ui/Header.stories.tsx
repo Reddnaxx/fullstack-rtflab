@@ -12,7 +12,7 @@ const meta: Meta<typeof Header> = {
       </div>
     ),
   ],
-  tags: ['header', 'autodocs'],
+  tags: ['header'],
 };
 
 export default meta;

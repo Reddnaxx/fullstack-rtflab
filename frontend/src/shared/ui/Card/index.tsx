@@ -4,7 +4,7 @@ import { cn } from '../../lib/helpers/cn';
 
 import type { ComponentProps, FC, ReactNode } from 'react';
 
-type CardVariant = 'raised' | 'outlined';
+type CardVariant = 'raised' | 'outlined' | 'flat';
 
 type CardComponent =
   | 'div'
@@ -26,6 +26,7 @@ type CardProps = HTMLProps & {
 const cardVariants = {
   raised: 'shadow-base',
   outlined: 'border border-gray-300',
+  flat: 'border-none',
 };
 
 export const Card = forwardRef<HTMLDivElement | HTMLFormElement, CardProps>(

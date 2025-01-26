@@ -21,7 +21,7 @@ const roboto = Roboto({
 
 const robotoCondensed = Roboto_Condensed({
   display: 'swap',
-  weight: ['700'],
+  weight: ['500', '700'],
   preload: true,
   style: 'normal',
   subsets: ['cyrillic', 'latin'],
@@ -46,7 +46,7 @@ export default function RootLayout({ children }: Readonly<LayoutProps>) {
           <AuthLoaderWrapper>
             <div className="flex h-screen flex-col">
               <Header />
-              <main className="container flex-1">{children}</main>
+              <main className="container mt-14 flex-1">{children}</main>
             </div>
           </AuthLoaderWrapper>
           <ToastContainer position="bottom-right" />

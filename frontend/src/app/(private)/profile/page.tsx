@@ -1,5 +1,7 @@
+import SettingsPage from '@/screens/Settings/ui';
+
 const Profile = () => {
-  return <div>Profile</div>;
+  return <SettingsPage />;
 };
 
 export default Profile;

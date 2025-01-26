@@ -13,8 +13,10 @@ export default {
       },
       keyframes: {
         rollout200: {
-          '0%': { transform: 'translateY(-10%)', 'max-height': '0' },
-          '100%': { transform: 'translateY(0)', 'max-height': '200px' },
+          '0%': { 'max-height': '0', 'padding-block': '0' },
+          '100%': {
+            'max-height': '200px',
+          },
         },
       },
       animation: {

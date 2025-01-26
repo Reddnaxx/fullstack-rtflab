@@ -1,9 +1,9 @@
 import { LogoutAction } from '@/features/auth/store/actions';
 import { store } from '@/shared/lib/store';
 
-import type { IProfileTab } from '../models';
+import type { ProfileMenuTab } from '../models';
 
-export const profileTabs: IProfileTab[] = [
+export const profileTabs: ProfileMenuTab[] = [
   {
     title: 'Мои карточки',
     route: '/profile/cards',

@@ -1,12 +1,16 @@
 'use client';
 
-import { usePathname, useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useCallback, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 import { Text } from '@/shared/ui';
 
-import { selectIsAuth, selectIsAuthLoading } from '../../store/slice';
+import {
+  selectIsAuth,
+  selectIsAuthLoading,
+  selectIsAuthUpdating,
+} from '../../store/slice';
 
 import type { FC, ReactNode } from 'react';
 
@@ -18,19 +22,30 @@ interface AuthWrapperProps {
 export const AuthWrapper: FC<AuthWrapperProps> = ({ children, forPublic }) => {
   const isAuth = useSelector(selectIsAuth);
   const isLoading = useSelector(selectIsAuthLoading);
+  const isUpdating = useSelector(selectIsAuthUpdating);
 
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const { replace } = useRouter();
 
-  useEffect(() => {
-    if (isLoading) return;
-
+  const checkAuthorization = useCallback(() => {
     if (forPublic && isAuth) {
-      replace('/');
+      const redirect = searchParams.get('redirect');
+      if (redirect) {
+        replace(redirect);
+      } else {
+        replace('/');
+      }
     } else if (!forPublic && !isAuth) {
       replace('/login?redirect=' + pathname);
     }
-  }, [isAuth, replace, pathname, forPublic, isLoading]);
+  }, [forPublic, isAuth, pathname, replace, searchParams]);
+
+  useEffect(() => {
+    if (isLoading || isUpdating) return;
+
+    checkAuthorization();
+  }, [checkAuthorization, isLoading, isUpdating]);
 
   if (isLoading && !forPublic) {
     return (

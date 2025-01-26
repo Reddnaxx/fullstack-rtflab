@@ -3,11 +3,11 @@ import { forwardRef } from 'react';
 import { cn } from '@/shared/lib/helpers/cn';
 import { Button, Card, Icon } from '@/shared/ui';
 
-import type { IProfileTab } from '../../models/profile-tab.interface';
+import type { ProfileMenuTab } from '../../models/profile-menu-tab.interface';
 import type { FC } from 'react';
 
 interface ProfileMenuProps {
-  tabs: IProfileTab[];
+  tabs: ProfileMenuTab[];
   onClose: () => void;
   className?: string;
 }
@@ -38,7 +38,7 @@ export const ProfileMenu = forwardRef<HTMLDivElement, ProfileMenuProps>(
 
 ProfileMenu.displayName = 'ProfileMenu';
 
-type ProfileTabProps = { tab: IProfileTab; onClose: () => void };
+type ProfileTabProps = { tab: ProfileMenuTab; onClose: () => void };
 
 const ProfileLinkTab: FC<ProfileTabProps> = ({ tab, onClose: onClick }) => {
   const { route, title, icon } = tab;

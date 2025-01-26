@@ -1,15 +1,8 @@
-import type { Tag } from '@/entities/tags/models';
-
-export interface UserInfo {
-  name: string;
-  avatar: string;
-  about: string;
-  tags: Tag[];
-  skills: Tag[];
-}
-
 export interface User {
-  id: number;
+  id: string;
   email: string;
-  info: UserInfo;
+  name: string;
+  telegram?: string;
+  about?: string;
+  skills?: string[];
 }

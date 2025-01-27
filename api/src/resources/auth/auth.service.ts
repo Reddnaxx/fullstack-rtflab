@@ -26,7 +26,11 @@ export class AuthService {
     try {
       const password = await this.utils.encrypt(data.password);
       const user = await this.prisma.user.create({
-        data: { ...data, password, roles: ['USER'] },
+        data: {
+          ...data,
+          password,
+          roles: ['USER'],
+        },
         omit: {
           createdAt: true,
           updatedAt: true,

@@ -3,7 +3,7 @@ import { ProfileTabs } from './index';
 import type { Meta, StoryObj } from '@storybook/react';
 
 const meta = {
-  title: 'Widgets/Profile/ProfileTabs',
+  title: 'Features/Profile/ProfileTabs',
   component: ProfileTabs,
   tags: ['profile'],
 } satisfies Meta<typeof ProfileTabs>;

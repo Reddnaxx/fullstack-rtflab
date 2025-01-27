@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 import { cn } from '@/shared/lib/helpers/cn';
 
 import type { ComponentProps, FC, ReactNode } from 'react';
@@ -6,11 +8,14 @@ type IconButtonColor = 'primary' | 'danger' | 'success';
 
 type IconButtonVariant = 'filled' | 'outlined' | 'flat';
 
-type IconButtonProps = ComponentProps<'button'> & {
+type IconButtonInheritedProps = ComponentProps<'button'> &
+  Partial<ComponentProps<typeof Link>>;
+
+type IconButtonProps = IconButtonInheritedProps & {
   color?: IconButtonColor;
   variant?: IconButtonVariant;
-  noPadding?: boolean;
   children?: ReactNode;
+  href?: string;
 };
 
 const iconButtonClasses = {
@@ -37,23 +42,28 @@ const iconButtonClasses = {
 export const IconButton: FC<IconButtonProps> = ({
   color = 'primary',
   variant = 'filled',
-  noPadding,
   children,
   className,
+  href,
   ...props
 }) => {
   const colorClasses = iconButtonClasses[variant][color];
+  const classes = cn(
+    'p-2 text-white rounded-full transition-all active:scale-95',
+    colorClasses,
+    className
+  );
+
+  if (href) {
+    return (
+      <Link className={classes} href={href} {...props}>
+        {children}
+      </Link>
+    );
+  }
 
   return (
-    <button
-      className={cn(
-        'p-2 text-white rounded-full transition-all active:scale-95',
-        colorClasses,
-        { 'p-0': noPadding },
-        className
-      )}
-      {...props}
-    >
+    <button className={classes} {...props}>
       {children}
     </button>
   );

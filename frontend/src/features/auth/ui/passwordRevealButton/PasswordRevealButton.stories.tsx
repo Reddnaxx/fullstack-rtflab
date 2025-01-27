@@ -3,7 +3,7 @@ import { PasswordRevealButton } from './index';
 import type { Meta, StoryObj } from '@storybook/react';
 
 const meta = {
-  title: 'entities/Password/PasswordRevealButton',
+  title: 'features/Auth/PasswordRevealButton',
   component: PasswordRevealButton,
   tags: ['button', 'password', 'autodocs'],
 } satisfies Meta<typeof PasswordRevealButton>;

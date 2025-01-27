@@ -49,6 +49,7 @@ export const authSlice = createSlice({
   },
   selectors: {
     selectUser: (state: AuthState) => state.user,
+    selectIsAdmin: (state: AuthState) => state.user?.roles.includes('ADMIN'),
     selectIsAuth: (state: AuthState) => state.isAuth,
     selectIsAuthLoading: (state: AuthState) => state.isLoading,
     selectIsAuthUpdating: (state: AuthState) => state.isUpdating,
@@ -78,6 +79,7 @@ export const selectUserWithSplitName = createDraftSafeSelector(
 
 export const {
   selectUser,
+  selectIsAdmin,
   selectIsAuth,
   selectIsAuthLoading,
   selectIsAuthUpdating,

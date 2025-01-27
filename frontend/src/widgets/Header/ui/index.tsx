@@ -1,8 +1,8 @@
 'use client';
-import { useRouter } from 'next/navigation';
+
 import { useSelector } from 'react-redux';
 
-import { selectIsAuth } from '@/features/auth/store/slice';
+import { selectIsAdmin, selectIsAuth } from '@/features/auth/store/slice';
 import { ProfileMenuButton } from '@/features/profile/ui';
 import { cn } from '@/shared/lib/helpers/cn';
 import { Route } from '@/shared/types';
@@ -12,18 +12,15 @@ import type { FC } from 'react';
 
 export const Header: FC = () => {
   const isAuth = useSelector(selectIsAuth);
-  const { push } = useRouter();
+  const isAdmin = useSelector(selectIsAdmin);
 
   return (
     <header className="container flex min-h-[5.625rem] items-center text-white">
       <Logo />
+      {isAdmin && <Icon name="admin" className="mb-5" />}
       {isAuth ? (
         <div className="ml-auto flex items-center gap-2">
-          <IconButton
-            onClick={() => push(Route.FAVORITES)}
-            variant="flat"
-            className="p-1"
-          >
+          <IconButton href={Route.FAVORITES} variant="flat" className="p-1">
             <Icon name="favorite" width={28} height={28} />
           </IconButton>
           <ProfileMenuButton className="ml-auto" />

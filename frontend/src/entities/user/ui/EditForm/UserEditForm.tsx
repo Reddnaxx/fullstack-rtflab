@@ -1,5 +1,6 @@
 'use client';
 
+import { useMemo } from 'react';
 import { toast } from 'react-toastify';
 
 import { PatchUserAction } from '@/features/auth/store/actions';
@@ -14,9 +15,19 @@ import { UserEditFormUI } from './UserEditFormUI';
 import type { UserEditFormScheme } from './UserEditFormUI';
 
 export const UserEditForm = () => {
-  const defaultValues = useAppSelector(selectUserWithSplitName);
+  const userWithSplitName = useAppSelector(selectUserWithSplitName);
   const isSubmitting = useAppSelector(selectIsAuthUpdating);
   const dispatch = useAppDispatch();
+
+  const defaultValues = useMemo(() => {
+    const data = { ...userWithSplitName };
+
+    delete data.name;
+    delete data.id;
+    delete data.roles;
+
+    return data as UserEditFormScheme;
+  }, [userWithSplitName]);
 
   const handleSubmit = (values: Partial<UserEditFormScheme>) => {
     const name = [values.lastName, values.firstName, values.patronymic].join(

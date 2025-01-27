@@ -1,7 +1,7 @@
 import { Roboto, Roboto_Condensed } from 'next/font/google';
 import { ToastContainer } from 'react-toastify';
 
-import { Header } from '@/widgets/Header';
+import { Header } from '@/widgets/Header/ui';
 
 import { Providers } from './Providers';
 import './globals.css';

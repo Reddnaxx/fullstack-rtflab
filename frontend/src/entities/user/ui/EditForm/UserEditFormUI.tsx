@@ -17,29 +17,37 @@ import {
   TextArea,
 } from '@/shared/ui';
 
-import type { FC, ReactNode } from 'react';
+import type { FC, ReactNode, SyntheticEvent } from 'react';
 
 const formScheme = z.object({
   lastName: z.string().min(1, 'Это обязательное поле'),
   firstName: z.string().min(1, 'Это обязательное поле'),
-  patronymic: z.string().optional(),
+  patronymic: z.optional(z.string()),
   email: z
     .string()
     .email('Неправильный формат почты')
     .min(1, 'Это обязательное поле'),
-  telegram: z
-    .string()
-    .optional()
-    .superRefine((value, ctx) => {
-      if (value && !value.startsWith('@')) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: 'Имя пользователя должно начинаться с "@"',
-        });
+  telegram: z.optional(
+    z.string().superRefine((value, ctx) => {
+      if (value) {
+        if (!value.startsWith('@')) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: 'Имя пользователя должно начинаться с "@"',
+          });
+        }
+
+        if (value.length < 2) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: 'Имя пользователя не должно быть пустым',
+          });
+        }
       }
-    }),
-  about: z.string().optional(),
-  skills: z.array(z.string()).optional(),
+    })
+  ),
+  about: z.optional(z.string()),
+  skills: z.optional(z.array(z.string())),
 });
 
 export type UserEditFormScheme = z.infer<typeof formScheme>;
@@ -60,7 +68,7 @@ export const UserEditFormUI: FC<UserEditFormProps> = ({
     handleSubmit,
     reset,
     setValue,
-    formState: { isValid, errors },
+    formState: { isValid, errors, isDirty },
   } = useForm<UserEditFormScheme>({
     resolver: zodResolver(formScheme),
     mode: 'onChange',
@@ -71,15 +79,25 @@ export const UserEditFormUI: FC<UserEditFormProps> = ({
 
   const handleTagsChange = (value: string[]) => {
     setSkills(value);
-    setValue('skills', value);
+    setValue('skills', value, {
+      shouldDirty: true,
+    });
+  };
+
+  const handleReset = (e: SyntheticEvent) => {
+    e.preventDefault();
+
+    reset(defaultValues);
+    setSkills(defaultValues.skills ?? []);
   };
 
   return (
     <form
       className="flex flex-col items-start gap-12 md:flex-row"
       onSubmit={handleSubmit(onSubmit)}
+      onReset={handleReset}
     >
-      <div className="relative aspect-square min-w-72 flex-1 overflow-hidden rounded-lg border border-gray-400 md:min-w-40">
+      <div className="relative aspect-square min-w-72 flex-1 overflow-hidden rounded-lg md:min-w-40">
         <Image
           src="https://placehold.co/400"
           alt=""
@@ -139,9 +157,9 @@ export const UserEditFormUI: FC<UserEditFormProps> = ({
             {...register('about')}
           />
           <TagsInput
-            setTags={handleTagsChange}
+            onChange={handleTagsChange}
             tags={skills}
-            max={5}
+            max={10}
             label="Навыки"
             placeholder="Введите навык и нажмите ' , ' или ' ; ' "
           ></TagsInput>
@@ -150,16 +168,11 @@ export const UserEditFormUI: FC<UserEditFormProps> = ({
           <Button
             type="submit"
             color="success"
-            disabled={isSubmitting || !isValid}
+            disabled={isSubmitting || !isDirty || !isValid}
           >
             Сохранить
           </Button>
-          <Button
-            type="button"
-            variant="text"
-            color="danger"
-            onClick={() => reset(defaultValues)}
-          >
+          <Button type="reset" variant="text" color="danger">
             Отмена
           </Button>
         </div>

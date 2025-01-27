@@ -5,7 +5,6 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-import { PasswordRevealButton } from '@/entities/password/ui';
 import { Route } from '@/shared/types';
 import {
   Button,
@@ -18,11 +17,13 @@ import {
   Text,
 } from '@/shared/ui';
 
+import { PasswordRevealButton } from '..';
+
 import type { Credentials } from '../../models/credentials';
 import type { FC } from 'react';
 
 export const loginFormSchema = z.object({
-  email: z.string().email('Некорректный email'),
+  email: z.string().min(1, 'Это обязательное поле').email('Некорректный email'),
   password: z.string().min(6, 'Пароль должен быть не менее 6 символов'),
 });
 
@@ -78,6 +79,7 @@ export const LoginFormUI: FC<LoginFormUIProps> = ({
           label="Email"
           autoComplete="email"
           type="email"
+          required
           error={errors.email?.message}
           {...register('email')}
         />
@@ -91,6 +93,7 @@ export const LoginFormUI: FC<LoginFormUIProps> = ({
               isVisible={isPasswordVisible}
             />
           }
+          required
           error={errors.password?.message}
           {...register('password')}
         />

@@ -92,7 +92,7 @@ const InputLabel: FC<InputLabelProps> = ({ children, className }) => {
   return (
     <span
       className={cn(
-        'pointer-events-none absolute left-2 top-1/2 -translate-y-1/2 select-none transition-all peer-focus:top-3 peer-focus:text-sm peer-[:not(:placeholder-shown)]:top-3 peer-[:not(:placeholder-shown)]:text-sm peer-autofill:text-sm peer-autofill:top-3',
+        'pointer-events-none absolute left-2 top-1/2 -translate-y-1/2 select-none transition-all peer-focus:top-3 peer-focus:text-sm peer-[:not(:placeholder-shown)]:top-3 peer-[:not(:placeholder-shown)]:text-sm peer-autofill:text-sm peer-autofill:top-3 text-gray-600',
         className
       )}
     >

@@ -11,4 +11,5 @@ export const icons = {
   error: '/svg/error.svg',
   cross: '/svg/cross.svg',
   favorite: '/svg/favorite.svg',
+  admin: '/svg/admin.svg',
 } satisfies IconsMap;

@@ -8,15 +8,23 @@ import { RegisterFormUI } from './RegisterFormUI';
 import { RegisterAction } from '../../store/actions';
 import { selectError, selectIsAuthLoading } from '../../store/slice';
 
-import type { RegisterData } from '../../models/credentials';
+import type { RegisterFormSchema } from './RegisterFormUI';
 
 export const RegisterForm = () => {
   const dispatcher = useAppDispatch();
   const error = useSelector(selectError);
   const isLoading = useSelector(selectIsAuthLoading);
 
-  const handleSubmit = (data: RegisterData) => {
-    dispatcher(RegisterAction(data));
+  const handleSubmit = (data: RegisterFormSchema) => {
+    const name = [data.lastName, data.firstName, data.patronymic].join(' ');
+
+    dispatcher(
+      RegisterAction({
+        email: data.email,
+        name,
+        password: data.password,
+      })
+    );
   };
 
   return (

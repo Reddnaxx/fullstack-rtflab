@@ -37,7 +37,20 @@ export class APIError {
     }
   }
 
+  translateMessage(message: string) {
+    switch (message) {
+      case 'Invalid credentials':
+        return 'Неверные учетные данные';
+      case 'User with provided email already exists':
+        return 'Пользователь с указанным email уже существует';
+      default:
+        return message;
+    }
+  }
+
   getMessageOrCodeDescription() {
-    return this.message || this.getCodeDescription();
+    return this.message
+      ? this.translateMessage(this.message)
+      : this.getCodeDescription();
   }
 }

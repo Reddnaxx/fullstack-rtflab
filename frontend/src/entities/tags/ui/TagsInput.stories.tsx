@@ -7,7 +7,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 const meta = {
   title: 'entities/Tags/TagsInput',
   component: TagsInput,
-  tags: ['tags', 'input'],
+  tags: ['tags', 'input', 'autodocs'],
 } satisfies Meta<typeof TagsInput>;
 
 export default meta;
@@ -17,7 +17,7 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     tags: [],
-    setTags: () => {},
+    onChange: () => {},
     label: 'Навыки',
     placeholder: 'Например, JavaScript',
   },
@@ -26,7 +26,7 @@ export const Default: Story = {
     return (
       <TagsInput
         tags={tags}
-        setTags={setTags}
+        onChange={setTags}
         placeholder={args.placeholder}
         label={args.label}
       />

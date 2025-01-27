@@ -33,8 +33,7 @@ export const ProfileMenuButton: FC<ProfileMenuButtonProps> = ({
       <IconButton
         color={'primary'}
         variant={'flat'}
-        noPadding
-        className={className}
+        className={cn('p-0')}
         onClick={toggleMenu}
       >
         <Icon name={'profile'} width={32} height={32} />

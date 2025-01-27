@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation';
 import { cn } from '@/shared/lib/helpers/cn';
 import { Button } from '@/shared/ui';
 
-import { profileTabs } from '../data';
+import { profileTabs } from '../../constants';
 
 export const ProfileTabs = () => {
   const pathname = usePathname();

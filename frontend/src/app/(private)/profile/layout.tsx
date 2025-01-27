@@ -1,4 +1,4 @@
-import { ProfileTabs } from '@/widgets/ProfileTabs/ui';
+import { ProfileTabs } from '@/features/profile/ui';
 
 import type { FC, ReactNode } from 'react';
 

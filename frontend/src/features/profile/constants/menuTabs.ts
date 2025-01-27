@@ -3,7 +3,7 @@ import { store } from '@/shared/lib/store';
 
 import type { ProfileMenuTab } from '../models';
 
-export const profileTabs: ProfileMenuTab[] = [
+export const profileMenuTabs: ProfileMenuTab[] = [
   {
     title: 'Мои карточки',
     route: '/profile/cards',

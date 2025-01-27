@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import { PasswordRevealButton } from '@/entities/password/ui';
+import { Route } from '@/shared/types';
 import {
   Button,
   Card,
@@ -121,7 +122,7 @@ export const LoginFormUI: FC<LoginFormUIProps> = ({
         as="link"
         variant="text"
         replace
-        href="/register"
+        href={Route.REGISTER}
         className="w-fit p-1"
       >
         Нет аккаунта?

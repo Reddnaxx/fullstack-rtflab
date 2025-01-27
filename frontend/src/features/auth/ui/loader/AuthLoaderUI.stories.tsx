@@ -1,4 +1,4 @@
-import { AuthLoaderUI } from './AuthLoaderUI';
+import { AuthLoaderUI } from '.';
 
 import type { Meta, StoryObj } from '@storybook/react';
 
@@ -12,8 +12,4 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {
-  args: {
-    isActive: true,
-  },
-};
+export const Default: Story = {};

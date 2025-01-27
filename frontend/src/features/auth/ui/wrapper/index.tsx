@@ -1,16 +1,11 @@
 'use client';
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useLayoutEffect } from 'react';
 import { useSelector } from 'react-redux';
 
-import { Text } from '@/shared/ui';
-
-import {
-  selectIsAuth,
-  selectIsAuthLoading,
-  selectIsAuthUpdating,
-} from '../../store/slice';
+import { AuthLoaderUI } from '..';
+import { selectIsAuth, selectIsAuthFetched } from '../../store/slice';
 
 import type { FC, ReactNode } from 'react';
 
@@ -21,8 +16,7 @@ interface AuthWrapperProps {
 
 export const AuthWrapper: FC<AuthWrapperProps> = ({ children, forPublic }) => {
   const isAuth = useSelector(selectIsAuth);
-  const isLoading = useSelector(selectIsAuthLoading);
-  const isUpdating = useSelector(selectIsAuthUpdating);
+  const isFetched = useSelector(selectIsAuthFetched);
 
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -31,33 +25,20 @@ export const AuthWrapper: FC<AuthWrapperProps> = ({ children, forPublic }) => {
   const checkAuthorization = useCallback(() => {
     if (forPublic && isAuth) {
       const redirect = searchParams.get('redirect');
-      if (redirect) {
-        replace(redirect);
-      } else {
-        replace('/');
-      }
+      replace(redirect || '/');
     } else if (!forPublic && !isAuth) {
-      replace('/login?redirect=' + pathname);
+      replace(`/login?redirect=${pathname}`);
     }
   }, [forPublic, isAuth, pathname, replace, searchParams]);
 
-  useEffect(() => {
-    if (isLoading || isUpdating) return;
+  useLayoutEffect(() => {
+    if (!isFetched) return;
 
     checkAuthorization();
-  }, [checkAuthorization, isLoading, isUpdating]);
+  }, [checkAuthorization, isFetched]);
 
-  if (isLoading && !forPublic) {
-    return (
-      <Text
-        as="h2"
-        weight="bold"
-        align="center"
-        className="absolute inset-x-0 top-1/2 -translate-y-1/2"
-      >
-        Загрузка...
-      </Text>
-    );
+  if (!isFetched && !forPublic) {
+    return <AuthLoaderUI />;
   }
 
   return children;

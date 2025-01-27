@@ -5,6 +5,7 @@ export default {
   theme: {
     container: {
       center: true,
+      padding: '1rem',
     },
     extend: {
       colors: {
@@ -18,9 +19,14 @@ export default {
             'max-height': '200px',
           },
         },
+        appear: {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
+        },
       },
       animation: {
         rollout200: 'rollout200 .5s ease-out',
+        appear: 'appear .15s ease-out',
       },
       boxShadow: {
         base: '0px 4px 12px rgba(0, 0, 0, .1)',

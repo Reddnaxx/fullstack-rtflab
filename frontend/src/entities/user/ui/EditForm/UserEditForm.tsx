@@ -1,32 +1,22 @@
 'use client';
 
-import { useMemo } from 'react';
+import { toast } from 'react-toastify';
 
-import { selectUser } from '@/features/auth/store/slice';
-import { useAppSelector } from '@/shared/lib/hooks/store';
+import { PatchUserAction } from '@/features/auth/store/actions';
+import {
+  selectIsAuthUpdating,
+  selectUserWithSplitName,
+} from '@/features/auth/store/slice';
+import { useAppDispatch, useAppSelector } from '@/shared/lib/hooks/store';
 
 import { UserEditFormUI } from './UserEditFormUI';
-import { patchUser } from '../../api';
 
 import type { UserEditFormScheme } from './UserEditFormUI';
 
 export const UserEditForm = () => {
-  const user = useAppSelector(selectUser)!;
-  const defaultValues = useMemo<UserEditFormScheme | null>(() => {
-    if (!user) return null;
-
-    const nameSplit = user.name.split(' ');
-
-    return {
-      email: user.email,
-      telegram: user.telegram,
-      about: user.about,
-      skills: user.skills,
-      lastName: nameSplit[0],
-      firstName: nameSplit[1],
-      patronymic: nameSplit[2],
-    };
-  }, [user]);
+  const defaultValues = useAppSelector(selectUserWithSplitName);
+  const isSubmitting = useAppSelector(selectIsAuthUpdating);
+  const dispatch = useAppDispatch();
 
   const handleSubmit = (values: Partial<UserEditFormScheme>) => {
     const name = [values.lastName, values.firstName, values.patronymic].join(
@@ -37,11 +27,17 @@ export const UserEditForm = () => {
     delete values.firstName;
     delete values.patronymic;
 
-    patchUser(user.id, { ...values, name });
+    dispatch(PatchUserAction({ ...values, name })).then(() => {
+      toast.success('Данные успешно обновлены');
+    });
   };
 
   return (
-    <UserEditFormUI defaultValues={defaultValues!} onSubmit={handleSubmit} />
+    <UserEditFormUI
+      defaultValues={defaultValues!}
+      onSubmit={handleSubmit}
+      isSubmitting={isSubmitting}
+    />
   );
 };
 

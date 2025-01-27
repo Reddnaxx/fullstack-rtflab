@@ -4,11 +4,14 @@ import { cn } from '../../lib/helpers/cn';
 
 import type { ComponentProps, FC, ReactNode } from 'react';
 
+type ErrorSpace = 'dynamic' | 'static';
+
 type InputProps = Omit<ComponentProps<'input'>, 'prefix'> & {
   label: string;
   prefix?: ReactNode;
   suffix?: ReactNode;
   error?: string;
+  errorSpace?: ErrorSpace;
 };
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
@@ -22,6 +25,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       prefix,
       error,
       required,
+      errorSpace = 'dynamic',
       ...props
     },
     ref
@@ -36,7 +40,9 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     );
 
     return (
-      <label className={cn('flex w-fit flex-col gap-1 text-lg', className)}>
+      <label
+        className={cn('flex w-fit flex-col gap-1 text-lg relative', className)}
+      >
         <div className="relative">
           <input
             ref={ref}
@@ -69,7 +75,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           )}
         </div>
 
-        {error && <InputError error={error} />}
+        <InputError error={error} space={errorSpace} />
       </label>
     );
   }
@@ -117,11 +123,28 @@ const InputAttachment: FC<InputChildrenProps> = ({
 };
 
 interface InputErrorProps {
-  error: string;
+  error?: string;
+  space?: ErrorSpace;
 }
 
-const InputError: FC<InputErrorProps> = ({ error }) => {
-  return <span className="text-sm text-red-500">{error}</span>;
+const InputError: FC<InputErrorProps> = ({ error, space }) => {
+  const errorClassNames = cn('text-sm text-red-500 min-h-5');
+
+  if (space === 'static') {
+    return <span className={errorClassNames}>{error}</span>;
+  }
+
+  return (
+    error && (
+      <span
+        className={cn(
+          'text-sm text-red-500 absolute bottom-[75%] right-5 bg-white border-red-500 border rounded-lg p-1 animate-appear'
+        )}
+      >
+        {error}
+      </span>
+    )
+  );
 };
 
 export default Input;

@@ -2,6 +2,7 @@ import {
   LoadCurrentUserAction,
   LoginAction,
   LogoutAction,
+  PatchUserAction,
   RegisterAction,
 } from './actions';
 
@@ -16,10 +17,12 @@ export const loginReducers = (builder: AuthBuilder) => {
     state.isAuth = true;
     state.user = user;
     state.error = null;
+    state.isFetched = true;
   });
   builder.addCase(LoginAction.rejected, (state, { error }) => {
     state.isLoading = false;
     state.error = error.message ?? 'Unknown error';
+    state.isFetched = true;
   });
 };
 
@@ -32,10 +35,12 @@ export const registerReducers = (builder: AuthBuilder) => {
     state.isAuth = true;
     state.user = user;
     state.error = null;
+    state.isFetched = true;
   });
   builder.addCase(RegisterAction.rejected, (state, { error }) => {
     state.isLoading = false;
     state.error = error.message ?? 'Unknown error';
+    state.isFetched = true;
   });
 };
 
@@ -66,12 +71,29 @@ export const loadCurrentUserReducers = (builder: AuthBuilder) => {
       state.isAuth = true;
       state.user = user;
       state.error = null;
+      state.isFetched = true;
     }
   );
   builder.addCase(LoadCurrentUserAction.rejected, (state, { error }) => {
     state.isUpdating = false;
     state.isAuth = false;
     state.user = null;
+    state.error = error.message ?? 'Unknown error';
+    state.isFetched = true;
+  });
+};
+
+export const patchUserReducers = (builder: AuthBuilder) => {
+  builder.addCase(PatchUserAction.pending, state => {
+    state.isUpdating = true;
+  });
+  builder.addCase(PatchUserAction.fulfilled, (state, { payload: user }) => {
+    state.isUpdating = false;
+    state.user = user;
+    state.error = null;
+  });
+  builder.addCase(PatchUserAction.rejected, (state, { error }) => {
+    state.isUpdating = false;
     state.error = error.message ?? 'Unknown error';
   });
 };

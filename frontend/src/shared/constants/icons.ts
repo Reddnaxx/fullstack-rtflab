@@ -9,4 +9,6 @@ export const icons = {
   'eye-slash': '/svg/eye-slash.svg',
   loader: '/svg/loader.svg',
   error: '/svg/error.svg',
+  cross: '/svg/cross.svg',
+  favorite: '/svg/favorite.svg',
 } satisfies IconsMap;

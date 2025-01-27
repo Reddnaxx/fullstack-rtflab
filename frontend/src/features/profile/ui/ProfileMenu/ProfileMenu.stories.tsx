@@ -1,5 +1,5 @@
 import { ProfileMenu } from '.';
-import { profileTabs } from '../../data';
+import { profileMenuTabs } from '../../constants';
 
 import type { Meta, StoryObj } from '@storybook/react';
 
@@ -15,6 +15,6 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    tabs: profileTabs,
+    tabs: profileMenuTabs,
   },
 };

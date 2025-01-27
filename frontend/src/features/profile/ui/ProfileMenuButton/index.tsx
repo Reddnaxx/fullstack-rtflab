@@ -6,7 +6,7 @@ import { cn } from '@/shared/lib/helpers/cn';
 import { useOnOutsideClick } from '@/shared/lib/hooks/useOnOutsideClick';
 import { IconButton, Icon } from '@/shared/ui';
 
-import { profileTabs } from '../../data';
+import { profileMenuTabs } from '../../constants';
 import { ProfileMenu } from '../ProfileMenu';
 
 import type { FC } from 'react';
@@ -42,7 +42,7 @@ export const ProfileMenuButton: FC<ProfileMenuButtonProps> = ({
       {isMenuOpen && (
         <ProfileMenu
           onClose={() => setIsMenuOpen(false)}
-          tabs={profileTabs}
+          tabs={profileMenuTabs}
           ref={menuRef}
           className="absolute right-0 top-full w-56 animate-rollout200"
         />

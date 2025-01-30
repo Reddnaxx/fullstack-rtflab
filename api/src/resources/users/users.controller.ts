@@ -8,10 +8,15 @@ import {
   Query,
   Req,
   UnauthorizedException,
+  UploadedFile,
+  UseInterceptors,
 } from '@nestjs/common';
-import { ApiOkResponse } from '@nestjs/swagger';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { ApiOkResponse, ApiConsumes } from '@nestjs/swagger';
 import { Request } from 'express';
 
+import { UtilsService } from '@app/utils';
+import { staticFolder } from 'src/configs';
 import { QueryListAllEntities } from 'src/shared/dto/query';
 
 import { UpdateUserDto, UserDto } from './dto';
@@ -21,7 +26,10 @@ import { AdminAccess } from '../auth/decorators/admin.decorator';
 
 @Controller('users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(
+    private readonly usersService: UsersService,
+    private readonly utilsService: UtilsService
+  ) {}
 
   @Get()
   @ApiOkResponse({ type: [UserDto] })
@@ -53,14 +61,27 @@ export class UsersController {
 
   @Patch(':id')
   @ApiOkResponse({ type: UserDto })
+  @ApiConsumes('multipart/form-data')
   @RolesAccess('USER')
+  @UseInterceptors(FileInterceptor('avatar'))
   async update(
     @Param('id') id: string,
+    @UploadedFile() file: Express.Multer.File,
     @Body() updateUserDto: UpdateUserDto,
     @Req() req: Request
   ) {
     const { roles } = req['user'];
     const isAdmin = roles?.includes('ADMIN');
+
+    updateUserDto.skills = JSON.parse(
+      updateUserDto.skills as unknown as string
+    );
+
+    if (file) {
+      const basePath = this.utilsService.getBaseUrl(req);
+      const avatar = `${basePath}/${staticFolder}/${file.filename}`;
+      await this.usersService.updateAvatar({ id }, avatar);
+    }
 
     return this.usersService.update({ id }, updateUserDto, isAdmin);
   }

@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
+import { Request } from 'express';
 
 @Injectable()
 export class UtilsService {
@@ -12,4 +13,10 @@ export class UtilsService {
   async compareHash(value: string, hash: string) {
     return bcrypt.compare(value, hash);
   }
+
+  getBaseUrl = (req: Request): string => {
+    const protocol = req.protocol;
+    const host = req.get('host');
+    return `${protocol}://${host}`;
+  };
 }

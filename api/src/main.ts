@@ -1,21 +1,28 @@
+import { join } from 'path';
+
 import { NestFactory, Reflector } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
+import type { NestExpressApplication } from '@nestjs/platform-express';
 import { SwaggerModule } from '@nestjs/swagger';
 import * as cookieParser from 'cookie-parser';
 
 import { AppModule } from './app.module';
-import { swaggerConfig, v1Prefix } from './configs';
+import { staticFolder, swaggerConfig, v1Prefix } from './configs';
 import { AuthService } from './resources/auth/auth.service';
 import { AuthGuard, RolesGuard } from './resources/auth/guards';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.setGlobalPrefix(v1Prefix);
 
   app.use(cookieParser());
+
   app.enableCors({
     credentials: true,
     origin: ['http://localhost:3000', 'http://localhost:6006'],
+  });
+  app.useStaticAssets(join(__dirname, '..', staticFolder), {
+    prefix: `/${staticFolder}/`,
   });
 
   const authService = app.get(AuthService);

@@ -42,6 +42,23 @@ export class UsersService {
     return user;
   }
 
+  async updateAvatar(where: Prisma.UserWhereUniqueInput, avatarUrl: string) {
+    try {
+      const user = await this.prisma.user.update({
+        where,
+        data: { avatar: avatarUrl },
+        omit: this.omit,
+      });
+      return user;
+    } catch (e) {
+      if (e.code === 'P2025') {
+        throw new NotFoundException('User not found');
+      }
+
+      throw e;
+    }
+  }
+
   async update(
     where: Prisma.UserWhereUniqueInput,
     dto: UpdateUserDto,

@@ -6,6 +6,10 @@ export const IMAGE_SCHEMA = z
   .any()
   .refine(
     (files: FileList) => {
+      if (!files?.length) {
+        return false;
+      }
+
       const file = files[0];
 
       if (!file?.type) {
@@ -16,7 +20,10 @@ export const IMAGE_SCHEMA = z
     },
     { message: 'Неразрешенный тип файла' }
   )
-  .refine(files => files[0].size <= fileSizeLimitMB * 1024 * 1024, {
-    message: `Размер файла не должен превышать ${fileSizeLimitMB} МБ`,
-  })
+  .refine(
+    files => files?.length && files[0].size <= fileSizeLimitMB * 1024 * 1024,
+    {
+      message: `Размер файла не должен превышать ${fileSizeLimitMB} МБ`,
+    }
+  )
   .transform(files => files[0]);

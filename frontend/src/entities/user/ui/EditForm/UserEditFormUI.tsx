@@ -1,17 +1,18 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import Image from 'next/image';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import { TagsInput } from '@/entities/tags/ui';
+import { IMAGE_SCHEMA } from '@/shared/types';
 import {
   Button,
   Card,
   CardContent,
   CardHeader,
+  ImageUploader,
   Input,
   Text,
   TextArea,
@@ -48,6 +49,7 @@ const formScheme = z.object({
   ),
   about: z.optional(z.string()),
   skills: z.optional(z.array(z.string())),
+  avatar: z.optional(IMAGE_SCHEMA).or(z.string()),
 });
 
 export type UserEditFormScheme = z.infer<typeof formScheme>;
@@ -76,6 +78,7 @@ export const UserEditFormUI: FC<UserEditFormProps> = ({
   });
 
   const [skills, setSkills] = useState<string[]>(defaultValues?.skills ?? []);
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
 
   const handleTagsChange = (value: string[]) => {
     setSkills(value);
@@ -89,6 +92,7 @@ export const UserEditFormUI: FC<UserEditFormProps> = ({
 
     reset(defaultValues);
     setSkills(defaultValues.skills ?? []);
+    setSelectedImage(null);
   };
 
   return (
@@ -97,15 +101,15 @@ export const UserEditFormUI: FC<UserEditFormProps> = ({
       onSubmit={handleSubmit(onSubmit)}
       onReset={handleReset}
     >
-      <div className="relative aspect-square min-w-72 flex-1 overflow-hidden rounded-lg md:min-w-40">
-        <Image
-          src="https://placehold.co/400"
-          alt=""
-          fill
-          priority
-          sizes="100%"
-        />
-      </div>
+      <ImageUploader
+        defaultSrc={defaultValues.avatar ?? 'https://placehold.co/200'}
+        onImageChange={setSelectedImage}
+        selectedImage={selectedImage}
+        className="aspect-square min-w-72 flex-1 md:min-w-40"
+        label="Загрузить фото"
+        error={errors.avatar?.message?.toString()}
+        {...register('avatar')}
+      />
       <div className="flex flex-[5] flex-col gap-6">
         <div className="flex  flex-col gap-14 sm:flex-row">
           <UserEditFormGroup title="Личная информация">

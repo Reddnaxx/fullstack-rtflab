@@ -6,4 +6,5 @@ export interface User {
   telegram?: string;
   about?: string;
   skills?: string[];
+  avatar?: string;
 }

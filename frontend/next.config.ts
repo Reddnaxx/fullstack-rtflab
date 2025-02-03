@@ -9,6 +9,9 @@ const nextConfig: NextConfig = {
       {
         hostname: 'placehold.co',
       },
+      {
+        hostname: 'localhost',
+      },
     ],
     dangerouslyAllowSVG: true,
   },

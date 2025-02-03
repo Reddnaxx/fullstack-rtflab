@@ -1,10 +1,14 @@
 import { api } from '@/shared/lib/api';
 
 import type { User } from '../models';
+import type { UserEditFormScheme } from '../ui/EditForm';
 
 export async function patchUser(
   userId: string,
-  data: Partial<User>
+  data: UserEditFormScheme
 ): Promise<User> {
-  return api.patch(`/users/${userId}`, data).then(res => res.data);
+  const skills = JSON.stringify(data.skills);
+  return api
+    .patchForm(`/users/${userId}`, { ...data, skills })
+    .then(res => res.data);
 }

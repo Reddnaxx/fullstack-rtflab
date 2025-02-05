@@ -6,16 +6,8 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import { Route } from '@/shared/types';
-import {
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  CardHeader,
-  Icon,
-  Input,
-  Text,
-} from '@/shared/ui';
+import { Button, Icon, Input, Text } from '@/shared/ui';
+import { Card, CardActions, CardContent, CardHeader } from '@/shared/ui/Card';
 
 import { PasswordRevealButton } from '..';
 

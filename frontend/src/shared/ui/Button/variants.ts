@@ -3,6 +3,7 @@ import type { ClassNameValue } from 'tailwind-merge';
 
 type ButtonClasses = Record<ButtonVariant, Record<ButtonColor, string>>;
 type ButtonSizeClasses = Record<ButtonSize, ClassNameValue>;
+type ButtonDisabledClasses = Record<ButtonVariant, string>;
 
 export const buttonClasses: ButtonClasses = {
   filled: {
@@ -31,5 +32,10 @@ export const buttonSizeClasses: ButtonSizeClasses = {
   lg: 'py-3 px-4 text-lg',
 };
 
-export const buttonDisabledClasses: ClassNameValue =
-  'disabled:bg-gray-300 disabled:text-gray-400 disabled:cursor-not-allowed';
+export const buttonDisabledClasses: ButtonDisabledClasses = {
+  filled:
+    'disabled:bg-gray-300 disabled:hover:bg-gray-300 disabled:active:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed',
+  outlined:
+    'disabled:bg-gray-50 disabled:border-gray-300 disabled:text-gray-300 disabled:cursor-not-allowed',
+  text: 'disabled:text-gray-400 disabled:cursor-not-allowed',
+};

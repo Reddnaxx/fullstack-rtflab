@@ -1,7 +1,8 @@
 import { forwardRef } from 'react';
 
 import { cn } from '@/shared/lib/helpers/cn';
-import { Button, Card, Icon } from '@/shared/ui';
+import { Button, Icon } from '@/shared/ui';
+import { Card } from '@/shared/ui/Card';
 
 import type { ProfileMenuTab } from '../../models/profile-menu-tab.interface';
 import type { FC } from 'react';

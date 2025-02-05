@@ -68,7 +68,7 @@ interface CardHeaderProps {
 }
 
 export const CardHeader: FC<CardHeaderProps> = ({ children, className }) => (
-  <div className={className}>{children}</div>
+  <div className={cn('flex flex-col', className)}>{children}</div>
 );
 
 interface CardContentProps {
@@ -77,7 +77,7 @@ interface CardContentProps {
 }
 
 export const CardContent: FC<CardContentProps> = ({ children, className }) => (
-  <div className={className}>{children}</div>
+  <div className={cn('flex flex-col flex-1', className)}>{children}</div>
 );
 
 interface CardActionsProps {

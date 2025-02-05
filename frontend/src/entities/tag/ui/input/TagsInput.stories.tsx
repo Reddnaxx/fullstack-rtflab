@@ -5,7 +5,7 @@ import { TagsInput } from './TagsInput';
 import type { Meta, StoryObj } from '@storybook/react';
 
 const meta = {
-  title: 'entities/Tags/TagsInput',
+  title: 'entities/Tag/TagsInput',
   component: TagsInput,
   tags: ['tags', 'input', 'autodocs'],
 } satisfies Meta<typeof TagsInput>;

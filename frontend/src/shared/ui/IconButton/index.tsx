@@ -49,7 +49,7 @@ export const IconButton: FC<IconButtonProps> = ({
 }) => {
   const colorClasses = iconButtonClasses[variant][color];
   const classes = cn(
-    'p-2 text-white rounded-full transition-all active:scale-95',
+    'p-2 text-white rounded-full transition-all active:scale-95 h-fit',
     colorClasses,
     className
   );

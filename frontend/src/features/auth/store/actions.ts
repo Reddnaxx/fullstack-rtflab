@@ -1,4 +1,4 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
+import { createAsyncThunk } from '@reduxjs/toolkit/react';
 
 import { patchUser } from '@/entities/user/api';
 import type { User } from '@/entities/user/models';

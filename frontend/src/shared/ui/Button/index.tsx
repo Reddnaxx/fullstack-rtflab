@@ -41,12 +41,13 @@ export const Button: FC<ButtonProps> = ({
 }) => {
   const colorClasses = buttonClasses[variant][color];
   const sizeClasses = buttonSizeClasses[size];
+  const disabledClasses = buttonDisabledClasses[variant];
 
   const classes = cn(
     'relative flex items-center gap-4 rounded-md text-left text-white transition-colors',
     colorClasses,
     sizeClasses,
-    buttonDisabledClasses,
+    disabledClasses,
     { 'p-0': noPaddings },
     className
   );

@@ -10,7 +10,7 @@ import {
   registerReducers,
 } from './asyncReducers';
 
-import type { ActionReducerMapBuilder } from '@reduxjs/toolkit';
+import type { ActionReducerMapBuilder } from '@reduxjs/toolkit/react';
 
 export type AuthBuilder = ActionReducerMapBuilder<AuthState>;
 

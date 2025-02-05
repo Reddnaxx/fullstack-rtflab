@@ -5,18 +5,10 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-import { TagsInput } from '@/entities/tags/ui';
+import { TagsInput } from '@/entities/tag/ui';
 import { IMAGE_SCHEMA } from '@/shared/types';
-import {
-  Button,
-  Card,
-  CardContent,
-  CardHeader,
-  ImageUploader,
-  Input,
-  Text,
-  TextArea,
-} from '@/shared/ui';
+import { Button, ImageUploader, Input, Text, TextArea } from '@/shared/ui';
+import { Card, CardContent, CardHeader } from '@/shared/ui/Card';
 
 import type { FC, ReactNode, SyntheticEvent } from 'react';
 
@@ -176,7 +168,12 @@ export const UserEditFormUI: FC<UserEditFormProps> = ({
           >
             Сохранить
           </Button>
-          <Button type="reset" variant="text" color="danger">
+          <Button
+            type="reset"
+            variant="text"
+            color="danger"
+            disabled={isSubmitting || !isDirty}
+          >
             Отмена
           </Button>
         </div>

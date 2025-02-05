@@ -23,6 +23,7 @@ import { UpdateUserDto, UserDto } from './dto';
 import { UsersService } from './users.service';
 import { PrivateAccess, RolesAccess } from '../auth/decorators';
 import { AdminAccess } from '../auth/decorators/admin.decorator';
+import { CardDto } from '../cards/dto';
 
 @Controller('users')
 export class UsersController {
@@ -32,7 +33,7 @@ export class UsersController {
   ) {}
 
   @Get()
-  @ApiOkResponse({ type: [UserDto] })
+  @ApiOkResponse({ type: UserDto, isArray: true })
   @AdminAccess()
   async findAll(@Query() query: QueryListAllEntities) {
     return this.usersService.findAll(+query.take, +query.skip);
@@ -53,6 +54,21 @@ export class UsersController {
     return this.usersService.findOne({ id });
   }
 
+  @Get('current/cards')
+  @ApiOkResponse({ type: CardDto, isArray: true })
+  @PrivateAccess()
+  async findCurrentUserCards(@Req() req: Request) {
+    const payload = req['user'];
+
+    if (!payload) {
+      throw new UnauthorizedException();
+    }
+
+    const id = payload.sub;
+
+    return this.usersService.findUserCards(id);
+  }
+
   @Get(':id')
   @ApiOkResponse({ type: UserDto })
   async findOne(@Param('id') id: string) {
@@ -62,7 +78,7 @@ export class UsersController {
   @Patch(':id')
   @ApiOkResponse({ type: UserDto })
   @ApiConsumes('multipart/form-data')
-  @RolesAccess('USER')
+  @RolesAccess('id', ['USER'])
   @UseInterceptors(FileInterceptor('avatar'))
   async update(
     @Param('id') id: string,
@@ -93,5 +109,11 @@ export class UsersController {
   })
   async remove(@Param('id') id: string) {
     return this.usersService.remove({ id });
+  }
+
+  @Get(':id/cards')
+  @ApiOkResponse({ type: CardDto, isArray: true })
+  async findUserCards(@Param('id') id: string) {
+    return this.usersService.findUserCards(id);
   }
 }

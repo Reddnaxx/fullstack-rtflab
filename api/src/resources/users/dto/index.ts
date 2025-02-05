@@ -1,7 +1,28 @@
 import { ApiProperty } from '@nestjs/swagger';
-import type { $Enums, Prisma } from '@prisma/client';
+import type { Prisma, Role } from '@prisma/client';
 
-export class UserDto implements Prisma.UserCreateInput {
+export class UserDto implements Omit<Prisma.UserCreateInput, 'password'> {
+  @ApiProperty()
+  id: string;
+  @ApiProperty({ format: 'email' })
+  email: string;
+  @ApiProperty()
+  name: string;
+  @ApiProperty()
+  roles: Role[];
+  @ApiProperty({ nullable: true, format: 'binary' })
+  avatar: string;
+  @ApiProperty({ nullable: true })
+  telegram?: string;
+  @ApiProperty({ nullable: true })
+  about?: string;
+  @ApiProperty({ nullable: true, isArray: true })
+  skills?: string[];
+}
+
+export class UserFullDto implements Prisma.UserCreateInput {
+  @ApiProperty()
+  id: string;
   @ApiProperty({ format: 'email' })
   email: string;
   @ApiProperty()
@@ -9,7 +30,7 @@ export class UserDto implements Prisma.UserCreateInput {
   @ApiProperty()
   name: string;
   @ApiProperty()
-  roles: $Enums.Role[];
+  roles: Role[];
   @ApiProperty({ nullable: true, format: 'binary' })
   avatar?: string;
   @ApiProperty({ nullable: true })
@@ -18,6 +39,10 @@ export class UserDto implements Prisma.UserCreateInput {
   about?: string;
   @ApiProperty({ nullable: true, isArray: true })
   skills?: string[];
+  @ApiProperty()
+  createdAt: Date;
+  @ApiProperty()
+  updatedAt: Date;
 }
 
 export class CreateUserDto implements Prisma.UserCreateInput {

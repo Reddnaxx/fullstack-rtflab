@@ -96,4 +96,24 @@ export class UsersService {
       throw new NotFoundException('User not found');
     }
   }
+
+  async findUserCards(id: string) {
+    return this.prisma.card.findMany({
+      where: { authorId: id },
+      omit: {
+        authorId: true,
+        createdAt: true,
+        updatedAt: true,
+        teamId: true,
+      },
+      include: {
+        team: {
+          omit: {
+            createdAt: true,
+            updatedAt: true,
+          },
+        },
+      },
+    });
+  }
 }

@@ -9,7 +9,7 @@ import { JwtService, TokenExpiredError } from '@nestjs/jwt';
 import { Request } from 'express';
 
 import { AuthService } from '../auth.service';
-import { IS_PRIVATE_KEY } from '../decorators';
+import { IS_PRIVATE_KEY, WITH_USER_KEY } from '../decorators';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -20,11 +20,15 @@ export class AuthGuard implements CanActivate {
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
+    const withUser = this.reflector.getAllAndOverride<boolean>(WITH_USER_KEY, [
+      context.getHandler(),
+      context.getClass(),
+    ]);
     const isPrivate = this.reflector.getAllAndOverride<boolean>(
       IS_PRIVATE_KEY,
       [context.getHandler(), context.getClass()]
     );
-    if (!isPrivate) {
+    if (!withUser && !isPrivate) {
       return true;
     }
 
@@ -32,7 +36,11 @@ export class AuthGuard implements CanActivate {
     const response = context.switchToHttp().getResponse();
     const accessToken = this.extractTokenFromHeader(request, 'accessToken');
 
-    if (!accessToken) {
+    if (!accessToken && !isPrivate) {
+      return true;
+    }
+
+    if (!accessToken && isPrivate) {
       throw new UnauthorizedException('No token provided');
     }
 

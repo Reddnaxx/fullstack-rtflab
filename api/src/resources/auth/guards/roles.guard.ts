@@ -19,6 +19,11 @@ export class RolesGuard implements CanActivate {
       context.getHandler(),
       context.getClass(),
     ]);
+    const checkField = this.reflector.getAllAndOverride<string>('checkField', [
+      context.getHandler(),
+      context.getClass(),
+    ]);
+
     if (!requiredRoles) {
       return true;
     }
@@ -27,13 +32,13 @@ export class RolesGuard implements CanActivate {
     } = context.switchToHttp().getRequest();
 
     const requireUserAccess = requiredRoles.includes('USER');
-    const hasUserAccess = request.params?.id === userId;
+    const hasUserAccess = checkField && request.params?.[checkField] === userId;
 
     if (userRoles?.includes('ADMIN')) {
       return true;
     }
 
-    if (requireUserAccess && !hasUserAccess) {
+    if (requireUserAccess && checkField && !hasUserAccess) {
       throw new UnauthorizedException('You can only access your own resources');
     }
 

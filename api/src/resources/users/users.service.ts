@@ -116,4 +116,33 @@ export class UsersService {
       },
     });
   }
+
+  async findFavorites(id: string) {
+    const data = await this.prisma.userFavorites.findMany({
+      where: { userId: id },
+      include: {
+        card: {
+          omit: {
+            authorId: true,
+            createdAt: true,
+            updatedAt: true,
+            teamId: true,
+          },
+          include: {
+            team: {
+              omit: {
+                createdAt: true,
+                updatedAt: true,
+              },
+            },
+            author: {
+              omit: this.omit,
+            },
+          },
+        },
+      },
+    });
+
+    return data.map(({ card }) => card);
+  }
 }

@@ -69,6 +69,21 @@ export class UsersController {
     return this.usersService.findUserCards(id);
   }
 
+  @Get('current/favorites')
+  @ApiOkResponse({ type: CardDto, isArray: true })
+  @PrivateAccess()
+  async findCurrentUserFavorites(@Req() req: Request) {
+    const payload = req['user'];
+
+    if (!payload) {
+      throw new UnauthorizedException();
+    }
+
+    const id = payload.sub;
+
+    return this.usersService.findFavorites(id);
+  }
+
   @Get(':id')
   @ApiOkResponse({ type: UserDto })
   async findOne(@Param('id') id: string) {
@@ -115,5 +130,11 @@ export class UsersController {
   @ApiOkResponse({ type: CardDto, isArray: true })
   async findUserCards(@Param('id') id: string) {
     return this.usersService.findUserCards(id);
+  }
+
+  @Get(':id/favorites')
+  @ApiOkResponse({ type: CardDto, isArray: true })
+  async findUserFavorites(@Param('id') id: string) {
+    return this.usersService.findFavorites(id);
   }
 }

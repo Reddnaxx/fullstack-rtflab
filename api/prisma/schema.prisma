@@ -34,6 +34,8 @@ model User {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  favorites UserFavorites[]
 }
 
 model Team {
@@ -66,4 +68,21 @@ model Card {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  favorites UserFavorites[]
+}
+
+model UserFavorites {
+  id String @id @default(cuid())
+
+  userId String
+  cardId String
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  card Card @relation(fields: [cardId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, cardId])
 }

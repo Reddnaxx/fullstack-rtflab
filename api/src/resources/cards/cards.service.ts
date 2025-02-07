@@ -1,7 +1,9 @@
-import { PrismaService } from '@app/prisma';
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { CardCreateDto } from './dto';
 import { $Enums, Prisma } from '@prisma/client';
+
+import { PrismaService } from '@app/prisma';
+
+import { CardCreateDto } from './dto';
 
 @Injectable()
 export class CardsService {
@@ -22,7 +24,6 @@ export class CardsService {
       },
     },
   };
-
   private readonly cardOmit: Prisma.CardOmit = {
     authorId: true,
     teamId: true,
@@ -58,18 +59,32 @@ export class CardsService {
   async findAll(
     take: number = 10,
     skip: number = 0,
-    where?: Prisma.CardWhereInput
+    where?: Prisma.CardWhereInput,
+    userId?: string
   ) {
-    return this.prisma.card.findMany({
+    const cards = await this.prisma.card.findMany({
       omit: this.cardOmit,
       include: this.cardInclude,
       take,
       skip,
       where: { status: $Enums.Status.ACTIVE, ...where },
     });
+
+    if (userId) {
+      const favorites = await this.prisma.userFavorites.findMany({
+        where: { userId },
+      });
+
+      return cards.map(card => ({
+        ...card,
+        isFavorite: !!favorites.find(fav => fav.cardId === card.id),
+      }));
+    }
+
+    return cards;
   }
 
-  async findOne(where: Prisma.CardWhereUniqueInput) {
+  async findOne(where: Prisma.CardWhereUniqueInput, userId?: string) {
     const card = await this.prisma.card.findUnique({
       where,
       omit: this.cardOmit,
@@ -78,6 +93,14 @@ export class CardsService {
 
     if (!card) {
       throw new NotFoundException('Card not found');
+    }
+
+    if (userId) {
+      const favorites = await this.prisma.userFavorites.findMany({
+        where: { cardId: card.id, userId },
+      });
+
+      return { ...card, isFavorite: !!favorites.length };
     }
 
     return card;
@@ -154,5 +177,47 @@ export class CardsService {
       }
       throw e;
     }
+  }
+
+  async favorite(userId: string, where: Prisma.CardWhereUniqueInput) {
+    const card = await this.prisma.card.findUnique({
+      where,
+      omit: this.cardOmit,
+      include: this.cardInclude,
+    });
+
+    if (!card) {
+      throw new NotFoundException('Card not found');
+    }
+
+    await this.prisma.userFavorites.create({
+      data: {
+        userId: userId,
+        cardId: card.id,
+      },
+    });
+
+    return { message: 'Card successfully favorited' };
+  }
+
+  async unfavorite(userId: string, where: Prisma.CardWhereUniqueInput) {
+    const card = await this.prisma.card.findUnique({
+      where,
+      omit: this.cardOmit,
+      include: this.cardInclude,
+    });
+
+    if (!card) {
+      throw new NotFoundException('Card not found');
+    }
+
+    await this.prisma.userFavorites.deleteMany({
+      where: {
+        userId,
+        cardId: card.id,
+      },
+    });
+
+    return { message: 'Card successfully unfavorited' };
   }
 }

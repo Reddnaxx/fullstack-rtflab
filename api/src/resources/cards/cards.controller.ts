@@ -10,15 +10,15 @@ import {
   Req,
   UnauthorizedException,
 } from '@nestjs/common';
+import { ApiOkResponse, ApiQuery } from '@nestjs/swagger';
+import { $Enums, Prisma } from '@prisma/client';
 
 import { CardsService } from './cards.service';
 import { CardCreateDto, CardDto, CardUpdateDto } from './dto';
+import { CardsItemResponseDto } from './dto/response';
 import { CardType } from './types';
-import { ApiOkResponse, ApiQuery } from '@nestjs/swagger';
-import { $Enums, Prisma } from '@prisma/client';
 import { PrivateAccess, RolesAccess, WithUser } from '../auth/decorators';
 import { AdminAccess } from '../auth/decorators/admin.decorator';
-import { CardsItemResponseDto } from './dto/response';
 
 @Controller('cards')
 export class CardsController {
@@ -49,12 +49,11 @@ export class CardsController {
           }
         : {}),
     };
-    const cards = await this.cardsService.findAll(10, 0, where);
+    const cards = await this.cardsService.findAll(10, 0, where, payload?.sub);
 
     return cards.map(card => ({
       ...card,
       isOwner: payload ? card.author.id === payload.sub : false,
-      isFavorite: false,
     }));
   }
 
@@ -115,5 +114,29 @@ export class CardsController {
   @RolesAccess('authorId', ['USER'])
   async activate(@Param('id') id: string) {
     return this.cardsService.activate({ id });
+  }
+
+  @Post(':id/favorite')
+  @PrivateAccess()
+  async favorite(@Req() req: Request, @Param('id') id: string) {
+    const payload = req['user'];
+
+    if (!payload) {
+      throw new UnauthorizedException();
+    }
+
+    return this.cardsService.favorite(payload.sub, { id });
+  }
+
+  @Delete(':id/favorite')
+  @PrivateAccess()
+  async unfavorite(@Req() req: Request, @Param('id') id: string) {
+    const payload = req['user'];
+
+    if (!payload) {
+      throw new UnauthorizedException();
+    }
+
+    return this.cardsService.unfavorite(payload.sub, { id });
   }
 }

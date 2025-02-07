@@ -15,7 +15,7 @@ import { CardsService } from './cards.service';
 import { CardCreateDto, CardDto, CardUpdateDto } from './dto';
 import { CardType } from './types';
 import { ApiOkResponse, ApiQuery } from '@nestjs/swagger';
-import { $Enums } from '@prisma/client';
+import { $Enums, Prisma } from '@prisma/client';
 import { PrivateAccess, RolesAccess, WithUser } from '../auth/decorators';
 import { AdminAccess } from '../auth/decorators/admin.decorator';
 import { CardsItemResponseDto } from './dto/response';
@@ -27,17 +27,27 @@ export class CardsController {
   @Get('')
   @ApiQuery({ name: 'type', required: false })
   @ApiQuery({ name: 'withInactive', required: false })
+  @ApiQuery({ name: 'search', required: false })
   @ApiOkResponse({ type: CardsItemResponseDto, isArray: true })
   @WithUser()
   async findAll(
     @Req() req: Request,
+    @Query('search') search?: string,
     @Query('type') type?: CardType,
     @Query('withInactive') withInactive?: boolean
   ) {
     const payload = req['user'];
-    const where = {
+    const where: Prisma.CardWhereInput = {
       ...(type === 'vacancy' && { NOT: { teamId: null } }),
       ...(withInactive ? {} : { status: $Enums.Status.ACTIVE }),
+      ...(search
+        ? {
+            OR: [
+              { title: { contains: search, mode: 'insensitive' } },
+              { about: { contains: search, mode: 'insensitive' } },
+            ],
+          }
+        : {}),
     };
     const cards = await this.cardsService.findAll(10, 0, where);
 

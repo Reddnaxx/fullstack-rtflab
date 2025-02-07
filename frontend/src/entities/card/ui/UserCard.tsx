@@ -5,6 +5,7 @@ import { Button, IconButton, Icon, Text } from '@/shared/ui';
 import { Card, CardHeader, CardContent, CardActions } from '@/shared/ui/Card';
 
 import { UserCardActions } from './UserCardActions';
+import { UserCardFavoriteButton } from './UserCardFavoriteButton';
 
 import type { ICard } from '../models';
 import type { FC } from 'react';
@@ -23,6 +24,7 @@ export const UserCard: IUserCard = ({
   about,
   isOwner,
   status,
+  isFavorite,
   variant = 'raised',
 }) => {
   return (
@@ -41,9 +43,7 @@ export const UserCard: IUserCard = ({
             </Text>
             <TagsList tags={skills} />
           </div>
-          <IconButton variant="flat">
-            <Icon name="favorite" />
-          </IconButton>
+          <UserCardFavoriteButton cardId={id} isFavorite={isFavorite} />
         </CardHeader>
         <CardContent>
           <Text>{about}</Text>

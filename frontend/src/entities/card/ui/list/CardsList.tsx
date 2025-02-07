@@ -1,28 +1,20 @@
-'use client';
-
-import { useSearchParams } from 'next/navigation';
-import { useEffect } from 'react';
-
-import { selectUser } from '@/features/auth/store/slice';
-import { useAppSelector } from '@/shared/lib/hooks/store';
-
 import { UserCard } from '..';
-import { useGetAllCardsQuery } from '../../api';
 
+import type { ICard } from '../../models';
 import type { FC, PropsWithChildren } from 'react';
 
-export const CardsList = () => {
-  const searchParams = useSearchParams();
-  const { data, isLoading, isError, refetch } = useGetAllCardsQuery(
-    searchParams.get('search') || undefined
-  );
-  const user = useAppSelector(selectUser);
+interface CardsListProps {
+  cards?: ICard[];
+  isLoading?: boolean;
+  isError?: boolean;
+}
 
-  useEffect(() => {
-    refetch();
-  }, [user, refetch, searchParams]);
-
-  if (isLoading || !data) {
+export const CardsList: FC<CardsListProps> = ({
+  isLoading,
+  isError,
+  cards,
+}) => {
+  if (isLoading || !cards) {
     return (
       <CardsListContainer>
         {[...Array(8)].map((_, index) => (
@@ -40,7 +32,7 @@ export const CardsList = () => {
 
   return (
     <CardsListContainer>
-      {data.map(card => {
+      {cards.map(card => {
         return (
           <li key={card.id}>
             <UserCard {...card} />

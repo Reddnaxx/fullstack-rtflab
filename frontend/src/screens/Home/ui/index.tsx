@@ -1,11 +1,11 @@
-import { CardsList } from '@/entities/card/ui';
+import { CardsFullList } from '@/widgets/CardsFullList/ui';
 
 import type { FC } from 'react';
 
 export const HomePage: FC = () => {
   return (
     <div>
-      <CardsList />
+      <CardsFullList />
     </div>
   );
 };

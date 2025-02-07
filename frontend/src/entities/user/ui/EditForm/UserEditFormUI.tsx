@@ -41,7 +41,7 @@ const formScheme = z.object({
   ),
   about: z.optional(z.string()),
   skills: z.optional(z.array(z.string())),
-  avatar: z.optional(IMAGE_SCHEMA).or(z.string()),
+  avatar: z.optional(IMAGE_SCHEMA.or(z.string())),
 });
 
 export type UserEditFormScheme = z.infer<typeof formScheme>;

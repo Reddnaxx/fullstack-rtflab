@@ -1,5 +1,7 @@
+import { FavoritesPage } from '@/screens/Favorites/ui';
+
 const ProfileFavorites = () => {
-  return <></>;
+  return <FavoritesPage />;
 };
 
 export default ProfileFavorites;

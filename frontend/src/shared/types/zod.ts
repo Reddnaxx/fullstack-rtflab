@@ -7,23 +7,31 @@ export const IMAGE_SCHEMA = z
   .refine(
     (files: FileList) => {
       if (!files?.length) {
-        return false;
+        return true;
       }
 
       const file = files[0];
-
-      if (!file?.type) {
-        return false;
-      }
 
       return allowedImages.includes(file.type);
     },
     { message: 'Неразрешенный тип файла' }
   )
   .refine(
-    files => files?.length && files[0].size <= fileSizeLimitMB * 1024 * 1024,
+    files => {
+      if (!files?.length) {
+        return true;
+      }
+
+      return files[0].size <= fileSizeLimitMB * 1024 * 1024;
+    },
     {
       message: `Размер файла не должен превышать ${fileSizeLimitMB} МБ`,
     }
   )
-  .transform(files => files[0]);
+  .transform(files => {
+    if (!files?.length) {
+      return null;
+    }
+
+    return files[0];
+  });

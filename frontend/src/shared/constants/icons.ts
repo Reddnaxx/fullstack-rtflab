@@ -11,6 +11,7 @@ export const icons = {
   error: '/svg/error.svg',
   cross: '/svg/cross.svg',
   favorite: '/svg/favorite.svg',
+  favoriteActive: '/svg/favoriteActive.svg',
   admin: '/svg/admin.svg',
   edit: '/svg/edit.svg',
   search: '/svg/search.svg',

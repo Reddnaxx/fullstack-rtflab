@@ -2,7 +2,7 @@ import type { Team } from '@/entities/team/models';
 import type { User } from '@/entities/user/models';
 
 export interface ICard {
-  id: number;
+  id: string;
   title: string;
   status: CardStatus;
   skills: string[];

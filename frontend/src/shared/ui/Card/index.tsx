@@ -24,7 +24,7 @@ type CardProps = HTMLProps & {
 };
 
 const cardVariants = {
-  raised: 'shadow-base',
+  raised: 'shadow-base border border-gray-100',
   outlined: 'border border-gray-300',
   flat: 'border-none',
 };

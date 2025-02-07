@@ -46,7 +46,6 @@ const ProfileLinkTab: FC<ProfileTabProps> = ({ tab, onClose: onClick }) => {
 
   return (
     <Button
-      as="link"
       href={route!}
       className="w-full font-bold text-black transition-colors"
       variant="text"

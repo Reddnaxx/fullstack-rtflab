@@ -6,4 +6,5 @@ export * from './Text';
 export * from './Icon';
 export * from './TextArea';
 export * from './Chip';
+export * from './Modal';
 export * from './ImageUploader';

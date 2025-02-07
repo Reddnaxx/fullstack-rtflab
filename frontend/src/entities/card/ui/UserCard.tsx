@@ -1,17 +1,21 @@
+import Link from 'next/link';
+
 import { TagsList } from '@/entities/tag/ui';
 import { Button, IconButton, Icon, Text } from '@/shared/ui';
 import { Card, CardHeader, CardContent, CardActions } from '@/shared/ui/Card';
 
-import { CardStatus } from '../models';
+import { UserCardActions } from './UserCardActions';
 
 import type { ICard } from '../models';
 import type { FC } from 'react';
 
+type CardProps = ICard & {
+  variant?: 'raised' | 'flat';
+};
 type IUserCard = FC<CardProps> & { Loading: FC };
 
-type CardProps = ICard;
-
 export const UserCard: IUserCard = ({
+  id,
   title,
   team,
   author,
@@ -19,41 +23,36 @@ export const UserCard: IUserCard = ({
   about,
   isOwner,
   status,
+  variant = 'raised',
 }) => {
   return (
-    <Card className="min-h-96">
-      <CardHeader className="flex-row justify-between">
-        <div>
-          <Text as="h3" weight="bold" size="20">
-            {title}
-          </Text>
-          <Text as="p" size="14" className="mb-2">
-            {team ? team.name : author.name.split(' ').slice(0, 2).join(' ')}
-          </Text>
-          <TagsList tags={skills} />
-        </div>
-        <IconButton variant="flat">
-          <Icon name="favorite" />
-        </IconButton>
-      </CardHeader>
-      <CardContent>
-        <Text>{about}</Text>
-      </CardContent>
-      <CardActions>
-        {isOwner ? (
-          <>
-            <Button>Изменить</Button>
-            {status === CardStatus.ACTIVE ? (
-              <Button color="danger">В архив</Button>
-            ) : (
-              <Button color="success">Вернуть из архива</Button>
-            )}
-          </>
-        ) : (
-          <Button>Откликнуться</Button>
-        )}
-      </CardActions>
-    </Card>
+    <Link href={'/card/' + id} className="group">
+      <Card
+        className="min-h-96 border-2 transition-all group-hover:border-black/20 group-hover:shadow-2xl"
+        variant={variant}
+      >
+        <CardHeader className="flex-row justify-between">
+          <div>
+            <Text as="h3" size="20" weight="bold">
+              {title}
+            </Text>
+            <Text as="p" size="14" className="mb-2">
+              {team ? team.name : author.name.split(' ').slice(0, 2).join(' ')}
+            </Text>
+            <TagsList tags={skills} />
+          </div>
+          <IconButton variant="flat">
+            <Icon name="favorite" />
+          </IconButton>
+        </CardHeader>
+        <CardContent>
+          <Text>{about}</Text>
+        </CardContent>
+        <CardActions>
+          <UserCardActions id={id} isOwner={isOwner} status={status} />
+        </CardActions>
+      </Card>
+    </Link>
   );
 };
 

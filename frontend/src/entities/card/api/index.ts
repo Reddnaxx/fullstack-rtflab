@@ -9,8 +9,8 @@ export const cardsApi = createApi({
     credentials: 'include',
   }),
   endpoints: builder => ({
-    getAllCards: builder.query<ICard[], void>({
-      query: () => 'cards',
+    getAllCards: builder.query<ICard[], string | void>({
+      query: search => 'cards' + (search ? `?search=${search}` : ''),
     }),
     getCardById: builder.query<ICard, string>({
       query: id => `cards/${id}`,

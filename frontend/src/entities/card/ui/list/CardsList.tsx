@@ -1,12 +1,26 @@
 'use client';
 
+import { useSearchParams } from 'next/navigation';
+import { useEffect } from 'react';
+
+import { selectUser } from '@/features/auth/store/slice';
+import { useAppSelector } from '@/shared/lib/hooks/store';
+
 import { UserCard } from '..';
 import { useGetAllCardsQuery } from '../../api';
 
 import type { FC, PropsWithChildren } from 'react';
 
 export const CardsList = () => {
-  const { data, isLoading, isError } = useGetAllCardsQuery();
+  const searchParams = useSearchParams();
+  const { data, isLoading, isError, refetch } = useGetAllCardsQuery(
+    searchParams.get('search') || undefined
+  );
+  const user = useAppSelector(selectUser);
+
+  useEffect(() => {
+    refetch();
+  }, [user, refetch, searchParams]);
 
   if (isLoading || !data) {
     return (

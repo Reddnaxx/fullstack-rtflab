@@ -9,7 +9,7 @@ export const NotFound = () => {
       <Text size="30" color="error" weight="bold">
         Страница не найдена
       </Text>
-      <Button as="link" href="/" size="lg" variant="text" className="text-2xl">
+      <Button href="/" size="lg" variant="text" className="text-2xl">
         На главную
       </Button>
     </div>

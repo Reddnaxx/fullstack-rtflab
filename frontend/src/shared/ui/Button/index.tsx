@@ -15,7 +15,6 @@ type ButtonCommonProps = ComponentProps<'button'> &
   Partial<ComponentProps<typeof Link>>;
 
 type ButtonProps = Omit<ButtonCommonProps, 'prefix'> & {
-  as?: 'button' | 'link';
   noPaddings?: boolean;
   color?: ButtonColor;
   variant?: ButtonVariant;
@@ -27,7 +26,6 @@ type ButtonProps = Omit<ButtonCommonProps, 'prefix'> & {
 };
 
 export const Button: FC<ButtonProps> = ({
-  as: asComponent = 'button',
   color = 'primary',
   variant = 'filled',
   size = 'md',
@@ -37,6 +35,7 @@ export const Button: FC<ButtonProps> = ({
   suffix,
   centered,
   className,
+  href,
   ...props
 }) => {
   const colorClasses = buttonClasses[variant][color];
@@ -52,12 +51,9 @@ export const Button: FC<ButtonProps> = ({
     className
   );
 
-  if (asComponent === 'link') {
+  if (href) {
     return (
-      <ButtonLink
-        className={classes}
-        {...(props as ComponentProps<typeof Link>)}
-      >
+      <ButtonLink className={classes} href={href} {...props}>
         <ButtonLayout prefix={prefix} suffix={suffix} centered={centered}>
           <span className="w-full">{children}</span>
         </ButtonLayout>
@@ -66,7 +62,7 @@ export const Button: FC<ButtonProps> = ({
   }
 
   return (
-    <ButtonDefault className={classes} {...(props as ButtonDefaultProps)}>
+    <ButtonDefault className={classes} {...props}>
       <ButtonLayout prefix={prefix} suffix={suffix} centered={centered}>
         <span className="w-full">{children}</span>
       </ButtonLayout>

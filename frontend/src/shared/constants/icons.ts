@@ -13,4 +13,5 @@ export const icons = {
   favorite: '/svg/favorite.svg',
   admin: '/svg/admin.svg',
   edit: '/svg/edit.svg',
+  search: '/svg/search.svg',
 } satisfies IconsMap;

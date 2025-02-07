@@ -6,12 +6,24 @@ import type { ComponentProps, FC, ReactNode } from 'react';
 
 type ErrorSpace = 'dynamic' | 'static';
 
+type InputRounded = 'none' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
+
 type InputProps = Omit<ComponentProps<'input'>, 'prefix'> & {
   label: string;
   prefix?: ReactNode;
   suffix?: ReactNode;
   error?: string;
   errorSpace?: ErrorSpace;
+  rounded?: InputRounded;
+};
+
+const roundedClasses: Record<InputRounded, string> = {
+  none: 'rounded-none',
+  sm: 'rounded-sm',
+  md: 'rounded-md',
+  lg: 'rounded-lg',
+  xl: 'rounded-xl',
+  full: 'rounded-full',
 };
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
@@ -25,13 +37,15 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       prefix,
       error,
       required,
+      rounded = 'md',
       errorSpace = 'dynamic',
       ...props
     },
     ref
   ) => {
     const inputClassNames = cn(
-      'p-2 border border-gray-400 rounded-md hover:border-black peer pt-3.5 placeholder:opacity-0 focus:placeholder:opacity-100 placeholder:transition-opacity outline-0 focus:outline-2 outline-blue-500 w-full transition-all autofill:outline-2',
+      'p-2 border border-gray-400 hover:border-black peer pt-3.5 placeholder:opacity-0 focus:placeholder:opacity-100 placeholder:transition-opacity outline-0 focus:outline-2 outline-blue-500 w-full transition-all autofill:outline-2 text-black',
+      roundedClasses[rounded],
       {
         'pl-9': prefix,
         'pr-9': suffix,

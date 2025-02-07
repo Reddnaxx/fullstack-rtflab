@@ -114,7 +114,6 @@ export const LoginFormUI: FC<LoginFormUIProps> = ({
         </Button>
       </CardActions>
       <Button
-        as="link"
         variant="text"
         replace
         href={Route.REGISTER}

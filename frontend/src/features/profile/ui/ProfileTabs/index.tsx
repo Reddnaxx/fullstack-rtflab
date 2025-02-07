@@ -15,7 +15,6 @@ export const ProfileTabs = () => {
       {profileTabs.map(tab => (
         <Button
           key={tab.title}
-          as="link"
           href={tab.route}
           variant="text"
           className={cn(

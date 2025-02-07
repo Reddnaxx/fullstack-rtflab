@@ -33,9 +33,10 @@ export const metadata: Metadata = {
 
 interface LayoutProps {
   children: ReactNode;
+  modal: ReactNode;
 }
 
-export default function RootLayout({ children }: Readonly<LayoutProps>) {
+export default function RootLayout({ children, modal }: Readonly<LayoutProps>) {
   return (
     <html lang="ru">
       <body
@@ -47,6 +48,7 @@ export default function RootLayout({ children }: Readonly<LayoutProps>) {
             <main className="container mt-14 flex-1">{children}</main>
           </div>
           <ToastContainer position="bottom-right" />
+          {modal}
         </Providers>
       </body>
     </html>

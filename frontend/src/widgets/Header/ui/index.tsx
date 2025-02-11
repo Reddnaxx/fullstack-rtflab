@@ -55,7 +55,7 @@ export const Header: FC = () => {
       {isAuth ? (
         <div className="flex w-full items-center justify-between gap-4">
           <HeaderSearchField
-            className="mx-auto"
+            className="mx-auto min-w-[40%]"
             value={search}
             handleChange={handleChange}
             handleSubmit={handleSubmit}
@@ -106,13 +106,14 @@ const HeaderSearchField: FC<HeaderSearchFieldProps> = ({
 }) => (
   <form onSubmit={handleSubmit} className={cn(className)}>
     <Input
+      className="w-full"
       label="Поиск"
       name="search"
+      autoComplete="off"
       value={value}
       onChange={handleChange}
       placeholder="Введите название карточки"
       suffix={<Icon name="search" />}
-      className="min-w-96"
       rounded="xl"
     />
   </form>

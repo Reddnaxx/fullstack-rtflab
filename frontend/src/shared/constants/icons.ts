@@ -15,4 +15,6 @@ export const icons = {
   admin: '/svg/admin.svg',
   edit: '/svg/edit.svg',
   search: '/svg/search.svg',
+  add: '/svg/add.svg',
+  addWhite: '/svg/add-white.svg',
 } satisfies IconsMap;

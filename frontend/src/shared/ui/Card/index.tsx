@@ -88,5 +88,3 @@ interface CardActionsProps {
 export const CardActions: FC<CardActionsProps> = ({ children, className }) => (
   <div className={cn('flex gap-1', className)}>{children}</div>
 );
-
-export default Card;

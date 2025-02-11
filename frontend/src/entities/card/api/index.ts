@@ -24,6 +24,16 @@ export const cardsApi = createApi({
       query: id => `cards/${id}`,
       providesTags: res => [{ type: 'Cards', id: res?.id }],
     }),
+    getCardsByType: builder.query<ICard[], string | void>({
+      query: type => 'cards' + (type ? `?type=${type}` : ''),
+      providesTags: res =>
+        res
+          ? [
+              ...res.map(({ id }) => ({ type: 'Cards' as const, id })),
+              { type: 'Cards', id: 'LIST' },
+            ]
+          : [{ type: 'Cards', id: 'LIST' }],
+    }),
     getFavorites: builder.query<ICard[], void>({
       query: () => 'users/current/favorites',
       providesTags: res =>
@@ -47,6 +57,7 @@ export const cardsApi = createApi({
 export const {
   useGetAllCardsQuery,
   useGetCardByIdQuery,
+  useGetCardsByTypeQuery,
   useFavoriteMutation,
   useGetFavoritesQuery,
 } = cardsApi;

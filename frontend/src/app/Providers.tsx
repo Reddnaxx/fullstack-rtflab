@@ -6,7 +6,7 @@ import { Provider } from 'react-redux';
 
 import { validateToken } from '@/features/auth/api';
 import { LoadCurrentUserAction } from '@/features/auth/store/actions';
-import { clearAuthError } from '@/features/auth/store/slice';
+import { clearAuthError, setAuthFetched } from '@/features/auth/store/slice';
 import { store } from '@/shared/lib/store';
 import type { AppStore } from '@/shared/lib/store';
 
@@ -29,9 +29,9 @@ const StoreProvider: FC<PropsWithChildren> = ({ children }) => {
 
     if (!currentStore?.getState().auth.user) {
       validateToken().then(valid => {
-        if (valid) {
-          currentStore?.dispatch(LoadCurrentUserAction());
-        }
+        currentStore?.dispatch(
+          valid ? LoadCurrentUserAction() : setAuthFetched()
+        );
       });
     }
 

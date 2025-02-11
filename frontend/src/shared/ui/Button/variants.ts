@@ -7,9 +7,12 @@ type ButtonDisabledClasses = Record<ButtonVariant, string>;
 
 export const buttonClasses: ButtonClasses = {
   filled: {
-    primary: 'bg-sky-500 hover:bg-sky-400 active:bg-sky-300 text-white',
-    danger: 'bg-red-500 hover:bg-red-400 active:bg-red-300 text-white',
-    success: 'bg-green-500 hover:bg-green-400 active:bg-green-300 text-white',
+    primary:
+      'bg-sky-500 border-2 border-sky-500 hover:bg-sky-400 active:bg-sky-300 text-white',
+    danger:
+      'bg-red-500 border-2 border-sky-500 hover:bg-red-400 active:bg-red-300 text-white',
+    success:
+      'bg-green-500 border-2 border-sky-500 hover:bg-green-400 active:bg-green-300 text-white',
   },
   outlined: {
     primary:
@@ -34,7 +37,7 @@ export const buttonSizeClasses: ButtonSizeClasses = {
 
 export const buttonDisabledClasses: ButtonDisabledClasses = {
   filled:
-    'disabled:bg-gray-300 disabled:hover:bg-gray-300 disabled:active:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed',
+    'disabled:bg-gray-300 disabled:hover:bg-gray-300 disabled:active:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed disabled:border-gray-300',
   outlined:
     'disabled:bg-gray-50 disabled:border-gray-300 disabled:text-gray-300 disabled:cursor-not-allowed',
   text: 'disabled:text-gray-400 disabled:cursor-not-allowed',

@@ -39,6 +39,9 @@ export const authSlice = createSlice({
     clearAuthError: state => {
       state.error = null;
     },
+    setAuthFetched: state => {
+      state.isFetched = true;
+    },
   },
   extraReducers: builder => {
     loginReducers(builder);
@@ -87,6 +90,6 @@ export const {
   selectError,
 } = authSlice.selectors;
 
-export const { clearAuthError } = authSlice.actions;
+export const { clearAuthError, setAuthFetched } = authSlice.actions;
 
 export default authSlice.reducer;

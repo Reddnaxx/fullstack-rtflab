@@ -37,6 +37,11 @@ export const TagsInput: FC<TagsInputProps> = ({
     ref.current!.value = '';
   }, [setTags, tags]);
 
+  const handleAddButtonClick = () => {
+    addTag();
+    ref.current?.focus();
+  };
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === ',' || e.key === ';') {
@@ -55,11 +60,11 @@ export const TagsInput: FC<TagsInputProps> = ({
   }, [addTag]);
 
   return (
-    <>
-      <label htmlFor={id} className="text-lg">
+    <div className="flex flex-col gap-1">
+      <label htmlFor={id} className="text-base">
         {label} ({tags.length}/{max})
       </label>
-      <div className="flex flex-col rounded-md border border-gray-400 p-3 outline outline-0 -outline-offset-1 outline-blue-500 hover:border-black has-[input:disabled]:bg-gray-100 has-[input:focus]:outline-2">
+      <div className="relative flex flex-col rounded-md border border-gray-400 p-3 outline outline-0 -outline-offset-1 outline-blue-500 hover:border-black has-[input:disabled]:bg-gray-100 has-[input:focus]:outline-2">
         {!!tags.length && (
           <div className="mb-4 flex flex-wrap gap-2">
             {tags.map(tag => (
@@ -86,8 +91,16 @@ export const TagsInput: FC<TagsInputProps> = ({
           autoComplete="off"
           className="h-full text-lg outline-none"
         />
+        <IconButton
+          onClick={handleAddButtonClick}
+          variant="flat"
+          type="button"
+          className="absolute bottom-[5%] right-2"
+        >
+          <Icon name="add" width={24} height={24} />
+        </IconButton>
       </div>
-    </>
+    </div>
   );
 };
 

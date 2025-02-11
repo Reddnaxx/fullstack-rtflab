@@ -8,3 +8,4 @@ export * from './TextArea';
 export * from './Chip';
 export * from './Modal';
 export * from './ImageUploader';
+export * from './Divider';

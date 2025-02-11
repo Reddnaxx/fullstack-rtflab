@@ -1,18 +1,24 @@
+import { Text } from '@/shared/ui';
+
 import { UserCard } from '..';
 
 import type { ICard } from '../../models';
-import type { FC, PropsWithChildren } from 'react';
+import type { FC, PropsWithChildren, ReactNode } from 'react';
 
 interface CardsListProps {
   cards?: ICard[];
   isLoading?: boolean;
   isError?: boolean;
+  disableEmptyMessage?: boolean;
+  children?: ReactNode;
 }
 
 export const CardsList: FC<CardsListProps> = ({
   isLoading,
   isError,
   cards,
+  disableEmptyMessage,
+  children,
 }) => {
   if (isLoading || !cards) {
     return (
@@ -30,6 +36,14 @@ export const CardsList: FC<CardsListProps> = ({
     return <div>Error</div>;
   }
 
+  if (!cards.length && !disableEmptyMessage) {
+    return (
+      <Text size="24" weight="bold" align="center" className="p-5">
+        Пока здесь пусто
+      </Text>
+    );
+  }
+
   return (
     <CardsListContainer>
       {cards.map(card => {
@@ -39,6 +53,7 @@ export const CardsList: FC<CardsListProps> = ({
           </li>
         );
       })}
+      {children}
     </CardsListContainer>
   );
 };

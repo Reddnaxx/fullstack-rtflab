@@ -25,7 +25,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    id: 1,
+    id: '1',
     status: CardStatus.ACTIVE,
     title: 'Frontend-разработчик',
     skills: ['React', 'Frontend', 'Next.js'],
@@ -61,7 +61,7 @@ export const Default: Story = {
 
 export const Owner: Story = {
   args: {
-    id: 1,
+    id: '1',
     status: CardStatus.ACTIVE,
     title: 'Frontend-разработчик',
     skills: ['React', 'Frontend', 'Next.js'],
@@ -97,7 +97,7 @@ export const Owner: Story = {
 
 export const OwnerAndInactive: Story = {
   args: {
-    id: 1,
+    id: '1',
     status: CardStatus.INACTIVE,
     title: 'Frontend-разработчик',
     skills: ['React', 'Frontend', 'Next.js'],

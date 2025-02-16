@@ -33,7 +33,7 @@ export class RolesGuard implements CanActivate {
 
     const requireUserAccess = requiredRoles.includes('USER');
     const hasUserAccess = checkField && request.params?.[checkField] === userId;
-
+    
     if (userRoles?.includes('ADMIN')) {
       return true;
     }

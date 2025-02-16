@@ -103,7 +103,7 @@ export class CardsService {
       return { ...card, isFavorite: !!favorites.length };
     }
 
-    return card;
+    return { ...card, isFavorite: false };
   }
 
   async update(

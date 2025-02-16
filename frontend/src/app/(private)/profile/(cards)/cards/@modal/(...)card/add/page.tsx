@@ -1,10 +1,14 @@
+import { Suspense } from 'react';
+
 import { AddCardForm } from '@/entities/card/ui';
 import { Modal } from '@/shared/ui';
 
-const AddCardModal = () => {
+const AddCardModal = async () => {
   return (
     <Modal className="w-full max-w-xl">
-      <AddCardForm />
+      <Suspense>
+        <AddCardForm />
+      </Suspense>
     </Modal>
   );
 };

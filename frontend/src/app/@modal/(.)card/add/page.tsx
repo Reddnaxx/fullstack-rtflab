@@ -1,5 +1,5 @@
-const AddCardModal = () => {
+const AddCardCommonModal = () => {
   return null;
 };
 
-export default AddCardModal;
+export default AddCardCommonModal;

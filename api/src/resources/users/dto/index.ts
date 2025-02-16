@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import type { Prisma, Role } from '@prisma/client';
+import { Prisma, Role } from '@prisma/client';
 
 export class UserDto implements Omit<Prisma.UserCreateInput, 'password'> {
   @ApiProperty()
@@ -69,4 +69,6 @@ export class UpdateUserDto implements Prisma.UserUpdateInput {
   about?: string;
   @ApiProperty({ nullable: true, required: false, isArray: true })
   skills?: string[];
+  @ApiProperty({ nullable:true, required: false, isArray: true, enum: Role })
+  roles?: Role[];
 }

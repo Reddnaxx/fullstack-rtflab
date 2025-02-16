@@ -51,6 +51,7 @@ export const ImageUploader = forwardRef<HTMLInputElement, ImageInputProps>(
             className="object-cover"
             alt="Выбранное изображение"
             fill
+            unoptimized
             priority
             sizes="100%"
           />

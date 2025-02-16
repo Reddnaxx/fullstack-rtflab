@@ -1,4 +1,5 @@
 import { Roboto, Roboto_Condensed } from 'next/font/google';
+import { Suspense } from 'react';
 import { ToastContainer } from 'react-toastify';
 
 import { Header } from '@/widgets/Header/ui';
@@ -44,7 +45,9 @@ export default function RootLayout({ children, modal }: Readonly<LayoutProps>) {
       >
         <Providers>
           <div className="flex h-screen flex-col">
-            <Header />
+            <Suspense>
+              <Header />
+            </Suspense>
             <main className="container mt-14 flex-1">{children}</main>
           </div>
           <ToastContainer position="bottom-right" />

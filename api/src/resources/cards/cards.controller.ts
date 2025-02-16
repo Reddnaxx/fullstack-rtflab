@@ -74,8 +74,11 @@ export class CardsController {
 
   @Get(':id')
   @ApiOkResponse({ type: CardDto })
-  async findOne(@Param('id') id: string) {
-    return this.cardsService.findOne({ id });
+  @WithUser()
+  async findOne(@Param('id') id: string, @Req() req: Request) {
+    const payload = req['user'];
+    const card = await this.cardsService.findOne({ id }, payload?.sub);
+    return {...card, isOwner: payload ? payload.sub === card.authorId : false}
   }
 
   @Patch(':id')

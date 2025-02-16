@@ -1,0 +1,67 @@
+name: rtflab
+
+networks:
+  rtflab-network:
+    driver: 'bridge'
+
+services:
+  postgres:
+    image: postgres:12
+    container_name: rtflab-db
+    restart: on-failure
+    networks:
+      - rtflab-network
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: dev
+      POSTGRES_DB: rtflab
+    healthcheck:
+      test: ['CMD', 'pg_isready', '-U', 'postgres']
+      interval: 5s
+      timeout: 10s
+      retries: 5
+    ports:
+      - '5432:5432'
+  api:
+    image: rtflab-api
+    container_name: rtflab-api
+    build: ./api
+    networks:
+      - rtflab-network
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: postgresql://postgres:dev@postgres:5432/rtflab
+      JWT_SECRET: secret
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: on-failure
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:8000/api/v1/health']
+      interval: 30s
+      timeout: 10s
+      retries: 5
+  client:
+    image: rtflab-client
+    container_name: rtflab-client
+    build: ./frontend
+    environment:
+      NODE_ENV: production
+    networks:
+      - rtflab-network
+    restart: on-failure
+  nginx:
+    image: rtflab-nginx
+    container_name: rtflab-nginx
+    restart: always
+    build: ./nginx
+    networks:
+      - rtflab-network
+    depends_on:
+      - api
+      - client
+    ports:
+      - '80:80'
+
+volumes:
+  build:

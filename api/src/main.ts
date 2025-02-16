@@ -19,7 +19,7 @@ async function bootstrap() {
 
   app.enableCors({
     credentials: true,
-    origin: ['http://localhost:3000', 'http://localhost:6006'],
+    origin: ['http://localhost:3000', "http://localhost"],
   });
   app.useStaticAssets(join(__dirname, '..', staticFolder), {
     prefix: `/${staticFolder}/`,

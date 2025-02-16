@@ -1,3 +1,5 @@
+import { Suspense } from 'react';
+
 import { CardsFullList } from '@/widgets/CardsFullList/ui';
 
 import type { FC } from 'react';
@@ -5,7 +7,9 @@ import type { FC } from 'react';
 export const HomePage: FC = () => {
   return (
     <div>
-      <CardsFullList />
+      <Suspense>
+        <CardsFullList />
+      </Suspense>
     </div>
   );
 };

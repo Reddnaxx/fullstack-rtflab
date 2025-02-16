@@ -24,6 +24,7 @@ import { UsersService } from './users.service';
 import { PrivateAccess, RolesAccess } from '../auth/decorators';
 import { AdminAccess } from '../auth/decorators/admin.decorator';
 import { CardDto } from '../cards/dto';
+import { Role } from '@prisma/client';
 
 @Controller('users')
 export class UsersController {
@@ -104,13 +105,20 @@ export class UsersController {
     const { roles } = req['user'];
     const isAdmin = roles?.includes('ADMIN');
 
-    updateUserDto.skills = JSON.parse(
-      updateUserDto.skills as unknown as string
-    );
+    if(updateUserDto.skills) {
+      updateUserDto.skills = JSON.parse(
+        updateUserDto.skills as unknown as string
+      );
+    }
+
+    if (updateUserDto.roles && isAdmin) {
+      updateUserDto.roles = (updateUserDto.roles as unknown as string).split(',') as Role[];
+    }
+    
 
     if (file) {
       const basePath = this.utilsService.getBaseUrl(req);
-      const avatar = `${basePath}/${staticFolder}/${file.filename}`;
+      const avatar = `${basePath}/api/v1/${staticFolder}/${file.filename}`;
       await this.usersService.updateAvatar({ id }, avatar);
     }
 

@@ -7,7 +7,7 @@ const AddCardModal = async () => {
   return (
     <Modal className="w-full max-w-xl">
       <Suspense>
-        <AddCardForm />
+        <AddCardForm redirectsBack />
       </Suspense>
     </Modal>
   );

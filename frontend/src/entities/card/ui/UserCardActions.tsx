@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 
 import { Button } from '@/shared/ui';
 
+import { useArchiveCardMutation } from '../api';
 import { CardStatus } from '../models';
 
 import type { FC, SyntheticEvent } from 'react';
@@ -19,6 +20,7 @@ export const UserCardActions: FC<UserCardActionsProps> = ({
   isOwner,
   status,
 }) => {
+  const [archive] = useArchiveCardMutation();
   const { push } = useRouter();
 
   const handleEditClick = (e: SyntheticEvent) => {
@@ -28,6 +30,7 @@ export const UserCardActions: FC<UserCardActionsProps> = ({
 
   const handleClick = (e: SyntheticEvent) => {
     e.preventDefault();
+    archive(id);
   };
 
   return (

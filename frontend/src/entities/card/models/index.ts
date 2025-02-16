@@ -13,6 +13,14 @@ export interface ICard {
   isFavorite: boolean;
 }
 
+export interface ICardCreate {
+  title: string;
+  skills: string[];
+  about: string;
+  teamId?: string;
+  authorId?: string;
+}
+
 export enum CardStatus {
   ACTIVE = 'ACTIVE',
   INACTIVE = 'INACTIVE',

@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-import type { ICard } from '../models';
+import type { ICard, ICardCreate } from '../models';
 
 export const cardsApi = createApi({
   reducerPath: 'cards',
@@ -51,6 +51,28 @@ export const cardsApi = createApi({
       }),
       invalidatesTags: res => [{ type: 'Cards', id: res?.id }],
     }),
+    createCard: builder.mutation<ICard, ICardCreate>({
+      query: data => ({
+        url: 'cards',
+        method: 'POST',
+        body: data,
+      }),
+      invalidatesTags: [{ type: 'Cards', id: 'LIST' }],
+    }),
+    archiveCard: builder.mutation<ICard, string>({
+      query: id => ({
+        url: `cards/${id}/deactivate`,
+        method: 'POST',
+      }),
+      invalidatesTags: res => [{ type: 'Cards', id: res?.id }],
+    }),
+    unarchiveCard: builder.mutation<ICard, string>({
+      query: id => ({
+        url: `cards/${id}/activate`,
+        method: 'POST',
+      }),
+      invalidatesTags: res => [{ type: 'Cards', id: res?.id }],
+    }),
   }),
 });
 
@@ -60,4 +82,7 @@ export const {
   useGetCardsByTypeQuery,
   useFavoriteMutation,
   useGetFavoritesQuery,
+  useCreateCardMutation,
+  useArchiveCardMutation,
+  useUnarchiveCardMutation,
 } = cardsApi;

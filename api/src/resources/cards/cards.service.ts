@@ -152,7 +152,7 @@ export class CardsService {
         include: this.cardInclude,
       });
 
-      return { message: 'Card successfully deactivated' };
+      return { message: 'Card successfully deactivated', id: where.id };
     } catch (e) {
       if (e.code === 'P2025') {
         throw new NotFoundException('Card not found');
@@ -170,7 +170,7 @@ export class CardsService {
         include: this.cardInclude,
       });
 
-      return { message: 'Card successfully activated' };
+      return { message: 'Card successfully activated', id: where.id };
     } catch (e) {
       if (e.code === 'P2025') {
         throw new NotFoundException('Card not found');

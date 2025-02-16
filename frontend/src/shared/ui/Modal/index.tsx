@@ -24,7 +24,7 @@ export const Modal: FC<ModalProps> = ({ children, className }) => {
   }, ref);
 
   return (
-    <div className="absolute inset-0 flex animate-appear items-center justify-center bg-black/20">
+    <div className="fixed inset-0 flex animate-appear items-center justify-center bg-black/20">
       <Card ref={ref} className={cn('min-w-96', className)}>
         {children}
       </Card>
